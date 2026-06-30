@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurnal Trade v2 — USD di Pluang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0c0e13;
+    --ink-2:#15181f;
+    --ink-3:#1c2029;
+    --ink-4:#22262f;
+    --line:#2a2f3b;
+    --line-soft:#1f232c;
+    --paper:#ece8dd;
+    --paper-dim:#9da3b0;
+    --paper-faint:#5e6470;
+    --gold:#cda64f;
+    --gold-bright:#e6c069;
+    --gold-dim:#7a6334;
+    --gold-wash:rgba(205,166,79,.08);
+    --up:#5fa979;
+    --up-wash:rgba(95,169,121,.1);
+    --down:#cc6a63;
+    --down-wash:rgba(204,106,99,.1);
+    --warn:#d99a3f;
+    --warn-wash:rgba(217,154,63,.1);
+    --radius:12px;
+    --shadow-card:0 1px 0 rgba(255,255,255,.02) inset, 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scrollbar-color:var(--line) transparent}
+  body{
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(205,166,79,.05), transparent 60%),
+      radial-gradient(700px 600px at 100% 0%, rgba(95,169,121,.03), transparent 55%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding:36px 22px 90px;
+    min-height:100vh;
+  }
+  .wrap{max-width:920px;margin:0 auto}
+  .num{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+  ::selection{background:var(--gold-dim);color:var(--paper)}
+
+  header{margin-bottom:30px;padding-bottom:24px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:32px;letter-spacing:-.02em;line-height:1.05}
+  .sub{color:var(--paper-dim);font-size:14px;margin-top:9px;max-width:58ch;line-height:1.6}
+
+  .tabs{display:flex;gap:3px;background:var(--ink-2);border:1px solid var(--line-soft);border-radius:11px;padding:4px;flex-shrink:0;box-shadow:var(--shadow-card)}
+  .tab{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-faint);background:none;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;transition:.18s ease}
+  .tab.active{background:var(--gold);color:var(--ink);box-shadow:0 2px 10px -2px rgba(205,166,79,.4)}
+  .tab:hover:not(.active){color:var(--paper);background:var(--ink-3)}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+  /* stat strip */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:24px 0}
+  .stat{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow-card);position:relative;overflow:hidden}
+  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .stat .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-faint);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+  .stat .v{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.01em}
+  .stat .v small{font-size:12px;color:var(--paper-faint);font-weight:400}
+  .stat.flag{border-color:var(--warn);background:linear-gradient(180deg,var(--warn-wash),var(--ink-2) 60%)}
+  .ratio-good{color:var(--up)}
+  .ratio-bad{color:var(--down)}
+
+  .weekbar{display:flex;align-items:center;gap:14px;background:var(--ink-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:14px 18px;margin-bottom:26px;font-size:13px;box-shadow:var(--shadow-card)}
+  .weekbar.alarm{border-color:var(--down);background:linear-gradient(180deg,var(--down-wash),var(--ink-2))}
+  .pips{display:flex;gap:5px;flex:1}
+  .pip{height:6px;border-radius:3px;flex:1;background:var(--line);transition:background .25s,transform .2s}
+  .pip.on{background:var(--gold);box-shadow:0 0 6px rgba(205,166,79,.35)}
+  .pip.over{background:var(--down)}
+  .weekbar .cap{color:var(--paper-dim);white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11.5px}
+
+  .panel{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:16px;padding:24px;margin-bottom:24px;box-shadow:var(--shadow-card)}
+  .panel h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin-bottom:5px;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+  .panel .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--ink);background:var(--gold);padding:3px 8px;border-radius:5px;text-transform:uppercase;font-weight:700}
+  .panel .lead{color:var(--paper-dim);font-size:13px;margin-bottom:20px;line-height:1.5}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  label{display:block;font-size:11px;letter-spacing:.04em;color:var(--paper-dim);margin-bottom:7px;font-weight:500}
+  label .req{color:var(--gold)}
+  input,textarea,select{
+    width:100%;background:var(--ink);border:1px solid var(--line);color:var(--paper);
+    border-radius:9px;padding:11px 13px;font-size:14px;font-family:'Inter',sans-serif;
+    transition:border-color .15s,box-shadow .15s;
+  }
+  input.num-in{font-family:'JetBrains Mono',monospace}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-wash)}
+  textarea{resize:vertical;min-height:64px}
+  select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239da3b0'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:32px}
+  .field{margin-bottom:15px}
+  .hint{font-size:11.5px;color:var(--paper-faint);margin-top:6px;line-height:1.45}
+
+  .btn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;border:none;border-radius:9px;padding:13px 22px;cursor:pointer;transition:.18s ease}
+  .btn-gold{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:var(--ink);box-shadow:0 4px 14px -4px rgba(205,166,79,.5)}
+  .btn-gold:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn-gold:disabled{background:var(--ink-4);color:var(--paper-faint);cursor:not-allowed;box-shadow:none;transform:none}
+  .btn-ghost{background:transparent;color:var(--paper-dim);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-wash)}
+  .btn-sm{padding:9px 15px;font-size:12.5px}
+  .actions{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .gate-msg{font-size:12px;color:var(--warn);font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:6px}
+
+  /* checklist gate — the signature element */
+  .checklist{background:var(--ink);border:1px solid var(--line);border-radius:13px;padding:6px 18px;margin-bottom:18px;transition:border-color .3s,box-shadow .3s}
+  .checklist.complete{border-color:var(--gold-dim);box-shadow:0 0 0 1px var(--gold-wash),0 0 24px -8px rgba(205,166,79,.25)}
+  .cl-progress{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper-faint);padding:14px 0 12px;display:flex;justify-content:space-between;align-items:center}
+  .cl-progress .track{flex:1;height:4px;background:var(--line);border-radius:2px;margin:0 14px;overflow:hidden}
+  .cl-progress .fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:2px;transition:width .3s ease}
+  .cl-progress .pct{color:var(--gold);font-weight:700;min-width:32px;text-align:right}
+  .checklist.complete .pct{color:var(--up)}
+  .checklist.complete .fill{background:linear-gradient(90deg,var(--up),#7ec99a)}
+  .cl-item{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+  .cl-item:last-child{border-bottom:none}
+  .cl-item input[type=checkbox]{width:19px;height:19px;flex-shrink:0;margin-top:1px;accent-color:var(--gold);cursor:pointer}
+  .cl-item label{margin:0;cursor:pointer;color:var(--paper);font-size:13.5px;font-weight:500;flex:1}
+  .cl-item .cl-desc{display:block;color:var(--paper-faint);font-size:11.5px;margin-top:3px;font-weight:400;line-height:1.4}
+
+  /* open positions + log */
+  .trade{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:14px;padding:18px 20px;margin-bottom:13px;box-shadow:var(--shadow-card);transition:border-color .15s}
+  .trade.open{border-left:3px solid var(--gold)}
+  .trade.partial{border-left:3px solid var(--warn)}
+  .trade-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .tkr{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .tkr .side{font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;color:var(--paper-faint);margin-left:9px;text-transform:uppercase;font-weight:400}
+  .badge{font-size:9.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;margin-left:7px}
+  .badge.full{background:var(--up-wash);color:var(--up)}
+  .badge.partial{background:var(--warn-wash);color:var(--warn)}
+  .meta{font-size:12px;color:var(--paper-faint);font-family:'JetBrains Mono',monospace;margin-top:4px}
+  .plan-row{display:flex;gap:20px;flex-wrap:wrap;margin-top:13px;font-size:12.5px}
+  .plan-row .pl b{color:var(--paper-dim);font-weight:500}
+  .plan-row .pl span{font-family:'JetBrains Mono',monospace}
+  .reason{font-size:13px;color:var(--paper-dim);margin-top:12px;font-style:italic;padding-left:12px;border-left:2px solid var(--line)}
+  .cl-recap{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+  .cl-chip{font-size:10px;font-family:'JetBrains Mono',monospace;padding:4px 9px;border-radius:11px;background:var(--ink);border:1px solid var(--line-soft);color:var(--paper-faint)}
+  .cl-chip.yes{color:var(--up);border-color:rgba(95,169,121,.3);background:var(--up-wash)}
+  .pnl-split{display:flex;gap:24px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);flex-wrap:wrap}
+  .pnl-split .seg .lbl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--paper-faint);font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+  .pnl-split .seg .amt{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px}
+  .up{color:var(--up)}.down{color:var(--down)}
+  .close-form{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+  .partial-log{margin-top:11px;padding:11px 13px;background:var(--ink);border-radius:9px;font-size:12px;color:var(--paper-dim)}
+  .partial-log .row{display:flex;justify-content:space-between;padding:4px 0}
+  .emo{font-size:12.5px;color:var(--paper-faint);margin-top:11px}
+  .emo b{color:var(--paper-dim)}
+  .row-btns{display:flex;gap:8px;margin-top:13px}
+  .x{background:none;border:none;color:var(--paper-faint);cursor:pointer;font-size:12px;text-decoration:underline;text-underline-offset:2px}
+  .x:hover{color:var(--down)}
+
+  .section-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin:32px 0 16px;display:flex;align-items:center;gap:10px;color:var(--paper)}
+  .section-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+  .section-title .ct{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--paper-faint);font-weight:400}
+  .empty{color:var(--paper-faint);font-size:13px;text-align:center;padding:30px 24px;border:1px dashed var(--line);border-radius:14px;line-height:1.6}
+
+  .truth{background:linear-gradient(135deg,var(--ink-4),var(--ink-2));border:1px solid var(--gold-dim);border-radius:16px;padding:20px 22px;margin-bottom:26px;position:relative}
+  .truth .h{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .truth p{font-size:13px;color:var(--paper-dim);margin-bottom:7px;line-height:1.55;padding-left:14px;position:relative}
+  .truth p::before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:var(--gold-dim)}
+  .truth p:last-child{margin-bottom:0}
+
+  /* analytics view */
+  .ag{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;font-size:12.5px}
+  .bar-row .lbl{width:100px;flex-shrink:0;color:var(--paper-dim);font-family:'JetBrains Mono',monospace;font-size:11.5px}
+  .bar-track{flex:1;height:9px;background:var(--ink);border-radius:5px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:5px;transition:width .4s ease}
+  .bar-val{width:78px;flex-shrink:0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11.5px}
+  .insight-card{background:linear-gradient(135deg,var(--ink-4),var(--ink-3));border:1px solid var(--gold-dim);border-radius:13px;padding:16px 18px;margin-bottom:14px;position:relative;overflow:hidden}
+  .insight-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,var(--gold-wash),transparent 70%)}
+  .insight-card .t{font-size:11.5px;color:var(--gold);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:7px;text-transform:uppercase;font-weight:700}
+  .insight-card .d{font-size:13.5px;color:var(--paper-dim);line-height:1.6}
+  table.simple{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.simple th{text-align:left;color:var(--paper-faint);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:9px 11px;border-bottom:1px solid var(--line)}
+  table.simple td{padding:10px 11px;border-bottom:1px solid var(--line-soft)}
+  table.simple tr:last-child td{border-bottom:none}
+
+  @media(max-width:680px){
+    .stats{grid-template-columns:1fr 1fr}
+    .grid2,.grid3,.ag{grid-template-columns:1fr}
+    h1{font-size:25px}
+    header{flex-direction:column;align-items:flex-start}
+    .tabs{width:100%}
+    .tab{flex:1;text-align:center}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Logbook · Swing US Stocks · Pluang USD</div>
+      <h1>Jurnal Trade</h1>
+      <p class="sub">Tugas bulan ini bukan cuan — tapi ngerti angka lo sendiri. Tiap trade wajib lolos checklist sebelum masuk, dan tiap exit dipisah: berapa dari saham, berapa dari kurs.</p>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-view="journal" onclick="switchView('journal')">Jurnal</button>
+      <button class="tab" data-view="analytics" onclick="switchView('analytics')">Analitik</button>
+    </div>
+  </header>
+
+  <!-- ============ JOURNAL VIEW ============ -->
+  <div class="view active" id="view-journal">
+
+    <!-- live stats -->
+    <div class="stats" id="stats"></div>
+
+    <!-- weekly trade counter -->
+    <div class="weekbar" id="weekbar">
+      <div class="pips" id="pips"></div>
+      <div class="cap" id="weekcap"></div>
+    </div>
+
+    <!-- the truth box -->
+    <div class="truth">
+      <div class="h">⚠ Pengingat sebelum klik beli</div>
+      <p>· Kalau lo gak bisa centang semua kriteria di bawah — itu bukan trade, itu judi. Tutup laptop.</p>
+      <p>· Win rate tinggi gak ada artinya kalau rata-rata kalah lo lebih gede dari rata-rata menang. Liat rasio di atas, bukan win rate.</p>
+      <p>· Lo pegang USD. Tiap posisi = taruhan ke saham <em>dan</em> ke USD/IDR. Catat dua-duanya.</p>
+    </div>
+
+    <!-- new trade form -->
+    <div class="panel">
+      <h2><span class="tag">Gerbang</span> Buka posisi baru</h2>
+      <p class="lead">Centang semua kriteria entry, lalu isi kolom bertanda <span style="color:var(--gold)">●</span>. Tombol simpan baru nyala kalau dua-duanya lengkap.</p>
+
+      <div class="checklist" id="checklist">
+        <div class="cl-progress">
+          <span id="clProgressTxt">0/5 kriteria</span>
+          <div class="track"><div class="fill" id="clFill" style="width:0%"></div></div>
+          <span class="pct" id="clProgressPct">0%</span>
+        </div>
+        <div class="cl-item">
+          <input type="checkbox" id="c_news" onchange="gate()">
+          <label for="c_news">Ada news / catalyst yang jelas
+            <span class="cl-desc">Bukan cuma "chart-nya keliatan bagus" — ada alasan fundamental/event di baliknya.</span>
+          </label>
+        </div>
+        <div class="cl-item">
+          <input type="checkbox" id="c_setup" onchange="gate()">
+          <label for="c_setup">Setup teknikal confirmed (order block / VWAP)
+            <span class="cl-desc">Level entry lo align sama struktur teknikal, bukan random angka.</span>
+          </label>
+        </div>
+        <div class="cl-item">
+          <input type="checkbox" id="c_rr" onchange="gate()">
+          <label for="c_rr">R:R minimal 2:1
+            <span class="cl-desc">Dihitung otomatis dari target & stop di bawah — centang kalau target lo masuk akal.</span>
+          </label>
+        </div>
+        <div class="cl-item">
+          <input type="checkbox" id="c_size" onchange="gate()">
+          <label for="c_size">Position size sesuai rule
+            <span class="cl-desc">Gak all-in, gak oversize karena "yakin banget" kali ini.</span>
+          </label>
+        </div>
+        <div class="cl-item">
+          <input type="checkbox" id="c_calm" onchange="gate()">
+          <label for="c_calm">Bukan revenge trade / FOMO
+            <span class="cl-desc">Lo masuk karena setup-nya valid, bukan karena pengen balas dendam ke market atau takut ketinggalan.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="field">
+          <label>Ticker <span class="req">●</span></label>
+          <input id="f_ticker" class="num-in" placeholder="NVDA" maxlength="6" oninput="this.value=this.value.toUpperCase();gate()">
+        </div>
+        <div class="field">
+          <label>Arah</label>
+          <select id="f_side" onchange="gate()"><option value="LONG">Long (beli)</option><option value="SHORT">Short</option></select>
+        </div>
+        <div class="field">
+          <label>Conviction (1–5)</label>
+          <select id="f_conv"><option>3</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="field">
+          <label>Harga masuk (USD) <span class="req">●</span></label>
+          <input id="f_entry" class="num-in num" type="number" step="0.01" placeholder="138.50" oninput="gate()">
+        </div>
+        <div class="field">
+          <label>Jumlah unit <span class="req">●</span></label>
+          <input id="f_units" class="num-in num" type="number" step="1" placeholder="20" oninput="gate()">
+        </div>
+        <div class="field">
+          <label>USD/IDR saat masuk <span class="req">●</span></label>
+          <input id="f_fx" class="num-in num" type="number" step="1" placeholder="17830" oninput="gate()">
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Target jual (USD) <span class="req">●</span></label>
+          <input id="f_target" class="num-in num" type="number" step="0.01" placeholder="152.00" oninput="gate()">
+        </div>
+        <div class="field">
+          <label>Batas rugi / stop (USD) <span class="req">●</span></label>
+          <input id="f_stop" class="num-in num" type="number" step="0.01" placeholder="131.00" oninput="gate()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Setup type <span class="req">●</span></label>
+        <select id="f_setuptype" onchange="gate()">
+          <option value="">— pilih —</option>
+          <option value="Breakout">Breakout</option>
+          <option value="Pullback">Pullback</option>
+          <option value="Order Block">Order Block</option>
+          <option value="VWAP Reclaim">VWAP Reclaim</option>
+          <option value="Earnings Play">Earnings Play</option>
+          <option value="News Catalyst">News Catalyst</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Alasan masuk — kenapa sekarang? <span class="req">●</span></label>
+        <textarea id="f_reason" placeholder="Setup apa, katalis apa, kenapa hari ini dan bukan kemarin. Tulis jujur — ini yang lo baca ulang akhir bulan." oninput="gate()"></textarea>
+      </div>
+
+      <div id="rr_preview" class="hint"></div>
+
+      <div class="actions">
+        <button id="saveBtn" class="btn btn-gold" disabled onclick="openTrade()">Catat posisi</button>
+        <span class="gate-msg" id="gateMsg">Lengkapi checklist & rencana dulu ●</span>
+      </div>
+    </div>
+
+    <!-- open positions -->
+    <div class="section-title">Posisi terbuka <span class="ct" id="openCt"></span></div>
+    <div id="openList"></div>
+
+    <!-- closed log -->
+    <div class="section-title">Riwayat tertutup <span class="ct" id="closedCt"></span></div>
+    <div id="closedList"></div>
+
+    <div style="margin-top:30px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="exportData()">Export semua (JSON)</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">Import JSON</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn btn-ghost" onclick="setCap()">Atur batas trade/minggu</button>
+    </div>
+  </div>
+
+  <!-- ============ ANALYTICS VIEW ============ -->
+  <div class="view" id="view-analytics">
+    <div id="analyticsBody"></div>
+  </div>
+
+</div>
+<script>
+const KEY='pluang_journal_v2';
+const CAPKEY='pluang_weekcap_v2';
+let trades=[];
+let weekCap=5;
+let currentView='journal';
+
+const fmtUSD=n=>(n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtIDR=n=>(n<0?'-':'')+'Rp'+Math.abs(Math.round(n)).toLocaleString('id-ID');
+const cls=n=>n>0?'up':(n<0?'down':'');
+const sign=n=>n>0?'+':'';
+const CL_KEYS=['c_news','c_setup','c_rr','c_size','c_calm'];
+const CL_LABELS={c_news:'News/Catalyst',c_setup:'Setup Teknikal',c_rr:'R:R \u22652',c_size:'Sizing OK',c_calm:'Tenang'};
+
+// ----- view switching -----
+function switchView(v){
+  currentView=v;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));
+  document.getElementById('view-journal').classList.toggle('active',v==='journal');
+  document.getElementById('view-analytics').classList.toggle('active',v==='analytics');
+  if(v==='analytics')renderAnalytics();
+}
+
+// ----- week helpers -----
+function weekKey(ts){const d=new Date(ts);const day=(d.getDay()+6)%7;const monday=new Date(d);monday.setDate(d.getDate()-day);monday.setHours(0,0,0,0);return monday.getTime();}
+function thisWeekKey(){return weekKey(Date.now());}
+
+// ----- storage (localStorage — works standalone in any browser / WebView) -----
+function load(){
+  try{const raw=localStorage.getItem(KEY);if(raw)trades=JSON.parse(raw);}catch(e){trades=[];}
+  try{const c=localStorage.getItem(CAPKEY);if(c)weekCap=JSON.parse(c);}catch(e){}
+  // migrate old trades missing new fields
+  trades.forEach(t=>{
+    if(!t.fills)t.fills=[]; // partial close fills: [{units, exit, fxOut, closedAt, emo}]
+    if(t.remainingUnits===undefined)t.remainingUnits=t.units;
+    if(!t.checklist)t.checklist={};
+    if(!t.setupType)t.setupType='Lainnya';
+  });
+  render();
+}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(trades));}catch(e){alert('Gagal simpan — storage browser penuh/diblokir.');}
+}
+function saveCap(){try{localStorage.setItem(CAPKEY,JSON.stringify(weekCap));}catch(e){}}
+
+// ----- gate logic -----
+function gate(){
+  const checklistOk=CL_KEYS.every(id=>document.getElementById(id).checked);
+  const checkedCt=CL_KEYS.filter(id=>document.getElementById(id).checked).length;
+  const pct=Math.round(checkedCt/CL_KEYS.length*100);
+  document.getElementById('clProgressTxt').textContent=`${checkedCt}/${CL_KEYS.length} kriteria`;
+  document.getElementById('clProgressPct').textContent=pct+'%';
+  document.getElementById('clFill').style.width=pct+'%';
+  document.getElementById('checklist').classList.toggle('complete',checklistOk);
+
+  const req=['f_ticker','f_entry','f_units','f_fx','f_target','f_stop','f_reason','f_setuptype'];
+  const fieldsOk=req.every(id=>document.getElementById(id).value.trim()!=='');
+  const ok=checklistOk&&fieldsOk;
+  const btn=document.getElementById('saveBtn');
+  const msg=document.getElementById('gateMsg');
+  btn.disabled=!ok;
+  if(ok){msg.textContent='Rencana lengkap — boleh masuk';msg.style.color='var(--up)';}
+  else if(!checklistOk){msg.textContent='Lengkapi checklist kriteria dulu ●';msg.style.color='var(--warn)';}
+  else{msg.textContent='Lengkapi rencana dulu ●';msg.style.color='var(--warn)';}
+
+  // R:R preview
+  const e=parseFloat(document.getElementById('f_entry').value);
+  const t=parseFloat(document.getElementById('f_target').value);
+  const s=parseFloat(document.getElementById('f_stop').value);
+  const side=document.getElementById('f_side').value;
+  const prev=document.getElementById('rr_preview');
+  if(e&&t&&s){
+    let reward,risk;
+    if(side==='LONG'){reward=t-e;risk=e-s;}else{reward=e-t;risk=s-e;}
+    if(risk>0&&reward>0){
+      const rr=(reward/risk);
+      let note=rr>=2?'Sehat — menang lo 2x+ lipat rugi lo.':(rr>=1?'Tipis. Idealnya cari yang R:R \u2265 2.':'Bahaya — potensi rugi lebih gede dari potensi menang. Pikir ulang.');
+      prev.innerHTML=`R:R = <b style="color:var(--gold)">1 : ${rr.toFixed(2)}</b> &nbsp;\u00b7&nbsp; ${note}`;
+    } else {
+      prev.innerHTML=`<span style="color:var(--down)">Cek lagi: untuk ${side}, target & stop kebalik.</span>`;
+    }
+  } else prev.innerHTML='';
+}
+document.getElementById('f_side').addEventListener('change',gate);
+
+function openTrade(){
+  const g=id=>document.getElementById(id).value.trim();
+  const checklist={};
+  CL_KEYS.forEach(id=>checklist[id]=document.getElementById(id).checked);
+  const units=parseFloat(g('f_units'));
+  const t={
+    id:Date.now(),
+    ticker:g('f_ticker'),
+    side:g('f_side'),
+    conv:g('f_conv'),
+    setupType:g('f_setuptype'),
+    entry:parseFloat(g('f_entry')),
+    units:units,
+    remainingUnits:units,
+    fxIn:parseFloat(g('f_fx')),
+    target:parseFloat(g('f_target')),
+    stop:parseFloat(g('f_stop')),
+    reason:g('f_reason'),
+    checklist:checklist,
+    fills:[],
+    openedAt:Date.now(),
+    status:'open'
+  };
+  trades.unshift(t);
+  save();render();
+  ['f_ticker','f_entry','f_units','f_target','f_stop','f_reason'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_setuptype').value='';
+  CL_KEYS.forEach(id=>document.getElementById(id).checked=false);
+  gate();
+}
+
+function showClose(id){
+  const el=document.getElementById('cf_'+id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+
+// ----- partial / full close -----
+function closeTrade(id,full){
+  const t=trades.find(x=>x.id===id);if(!t)return;
+  const exit=parseFloat(document.getElementById('ce_'+id).value);
+  const fxOut=parseFloat(document.getElementById('cfx_'+id).value);
+  const emo=document.getElementById('cemo_'+id).value.trim();
+  const unitsInput=document.getElementById('cu_'+id);
+  let closeUnits=full?t.remainingUnits:parseFloat(unitsInput.value);
+
+  if(!exit||!fxOut){alert('Isi harga keluar dan USD/IDR saat keluar.');return;}
+  if(!closeUnits||closeUnits<=0){alert('Isi jumlah unit yang mau ditutup.');return;}
+  if(closeUnits>t.remainingUnits){alert(`Gak bisa nutup ${closeUnits} unit, sisa posisi cuma ${t.remainingUnits}.`);return;}
+
+  t.fills.push({units:closeUnits,exit,fxOut,emo,closedAt:Date.now()});
+  t.remainingUnits=+(t.remainingUnits-closeUnits).toFixed(6);
+
+  if(t.remainingUnits<=0.0001){
+    t.status='closed';
+    t.closedAt=Date.now();
+  }
+  save();render();
+}
+
+function delTrade(id){if(confirm('Hapus catatan ini?')){trades=trades.filter(x=>x.id!==id);save();render();}}
+function delFill(tradeId,fillIdx){
+  if(!confirm('Hapus fill ini? Sisa unit akan dikembalikan ke posisi terbuka.'))return;
+  const t=trades.find(x=>x.id===tradeId);if(!t)return;
+  const f=t.fills[fillIdx];
+  t.remainingUnits=+(t.remainingUnits+f.units).toFixed(6);
+  t.fills.splice(fillIdx,1);
+  if(t.status==='closed'&&t.remainingUnits>0.0001){t.status='open';delete t.closedAt;}
+  save();render();
+}
+
+// ----- P&L math per fill: split stock vs currency -----
+function fillPnl(t,f){
+  const dir=t.side==='LONG'?1:-1;
+  const stockUSD=(f.exit-t.entry)*f.units*dir;
+  const costIDR=t.entry*f.units*t.fxIn;
+  const valIDR=f.exit*f.units*f.fxOut;
+  const totalIDR=(valIDR-costIDR)*dir;
+  const stockIDR=stockUSD*t.fxIn;
+  const fxIDR=totalIDR-stockIDR;
+  return {stockUSD,stockIDR,fxIDR,totalIDR};
+}
+// aggregate P&L across all fills of a trade
+function tradePnl(t){
+  return t.fills.reduce((acc,f)=>{
+    const p=fillPnl(t,f);
+    acc.stockUSD+=p.stockUSD;acc.stockIDR+=p.stockIDR;acc.fxIDR+=p.fxIDR;acc.totalIDR+=p.totalIDR;
+    return acc;
+  },{stockUSD:0,stockIDR:0,fxIDR:0,totalIDR:0});
+}
+function checklistScore(t){
+  const vals=CL_KEYS.map(k=>t.checklist&&t.checklist[k]?1:0);
+  return vals.reduce((a,b)=>a+b,0);
+}
+
+// ----- render -----
+function render(){
+  const open=trades.filter(t=>t.status==='open');
+  const closed=trades.filter(t=>t.status==='closed');
+
+  const closedP=closed.map(t=>({t,p:tradePnl(t)}));
+  const wins=closedP.filter(x=>x.p.totalIDR>0);
+  const losses=closedP.filter(x=>x.p.totalIDR<0);
+  const avgWin=wins.length?wins.reduce((a,x)=>a+x.p.totalIDR,0)/wins.length:0;
+  const avgLoss=losses.length?Math.abs(losses.reduce((a,x)=>a+x.p.totalIDR,0)/losses.length):0;
+  const ratio=avgLoss>0?(avgWin/avgLoss):0;
+  const winRate=closed.length?Math.round(wins.length/closed.length*100):0;
+  const fxTotal=closedP.reduce((a,x)=>a+x.p.fxIDR,0);
+
+  let ratioCls='', ratioTxt='\u2014';
+  if(closed.length&&avgLoss>0){ratioTxt='1 : '+ratio.toFixed(2);ratioCls=ratio>=1.5?'ratio-good':'ratio-bad';}
+  else if(closed.length&&losses.length===0&&wins.length){ratioTxt='\u221e';ratioCls='ratio-good';}
+
+  document.getElementById('stats').innerHTML=`
+    <div class="stat">
+      <div class="k">Rata2 menang</div>
+      <div class="v up">${closed.length?fmtIDR(avgWin):'\u2014'}</div>
+    </div>
+    <div class="stat">
+      <div class="k">Rata2 kalah</div>
+      <div class="v down">${closed.length?fmtIDR(avgLoss):'\u2014'}</div>
+    </div>
+    <div class="stat ${ratioCls==='ratio-bad'?'flag':''}">
+      <div class="k">Rasio menang:kalah</div>
+      <div class="v ${ratioCls}">${ratioTxt}</div>
+    </div>
+    <div class="stat">
+      <div class="k">Efek kurs (kumulatif)</div>
+      <div class="v ${cls(fxTotal)}">${closed.length?fmtIDR(fxTotal):'\u2014'}</div>
+    </div>`;
+
+  // week bar
+  const wk=thisWeekKey();
+  const opensThisWeek=trades.filter(t=>weekKey(t.openedAt)===wk).length;
+  const pips=document.getElementById('pips');
+  const total=Math.max(weekCap,opensThisWeek);
+  let ph='';
+  for(let i=0;i<total;i++){
+    ph+=`<div class="pip ${i<opensThisWeek?(i<weekCap?'on':'over'):''}"></div>`;
+  }
+  pips.innerHTML=ph;
+  const over=opensThisWeek>weekCap;
+  document.getElementById('weekbar').className='weekbar'+(over?' alarm':'');
+  document.getElementById('weekcap').textContent=`${opensThisWeek}/${weekCap} trade minggu ini`+(over?' \u00b7 STOP, lo overtrade':(opensThisWeek===weekCap?' \u00b7 jatah habis':''));
+
+  // open list
+  document.getElementById('openCt').textContent=open.length?`(${open.length})`:'';
+  const ol=document.getElementById('openList');
+  if(!open.length)ol.innerHTML='<div class="empty">Belum ada posisi terbuka. Bagus — sabar itu posisi juga.</div>';
+  else ol.innerHTML=open.map(t=>{
+    const dir=t.side==='LONG'?1:-1;
+    const reward=t.side==='LONG'?t.target-t.entry:t.entry-t.target;
+    const risk=t.side==='LONG'?t.entry-t.stop:t.stop-t.entry;
+    const rr=risk>0?(reward/risk).toFixed(2):'\u2014';
+    const isPartial=t.fills.length>0;
+    const clChips=CL_KEYS.map(k=>`<span class="cl-chip ${t.checklist[k]?'yes':''}">${CL_LABELS[k]}</span>`).join('');
+    const fillsHtml=t.fills.length?`<div class="partial-log">${t.fills.map((f,i)=>{
+      const p=fillPnl(t,f);
+      return `<div class="row"><span>${f.units}u @ ${fmtUSD(f.exit)} \u2192 <b class="${cls(p.totalIDR)}">${sign(p.totalIDR)}${fmtIDR(p.totalIDR)}</b></span><button class="x" onclick="delFill(${t.id},${i})">hapus</button></div>`;
+    }).join('')}</div>`:'';
+    return `<div class="trade open ${isPartial?'partial':''}">
+      <div class="trade-top">
+        <div>
+          <div class="tkr">${t.ticker}<span class="side">${t.side} \u00b7 conv ${t.conv}/5</span>${isPartial?'<span class="badge partial">partial</span>':''}</div>
+          <div class="meta">masuk ${new Date(t.openedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u00b7 ${t.setupType} \u00b7 sisa ${t.remainingUnits}/${t.units} unit @ ${fmtUSD(t.entry)} \u00b7 fx ${t.fxIn.toLocaleString('id-ID')}</div>
+        </div>
+        <button class="x" onclick="delTrade(${t.id})">hapus</button>
+      </div>
+      <div class="plan-row">
+        <div class="pl"><b>Target</b> <span class="up">${fmtUSD(t.target)}</span></div>
+        <div class="pl"><b>Stop</b> <span class="down">${fmtUSD(t.stop)}</span></div>
+        <div class="pl"><b>R:R rencana</b> <span style="color:var(--gold)">1 : ${rr}</span></div>
+      </div>
+      <div class="reason">"${t.reason}"</div>
+      <div class="cl-recap">${clChips}</div>
+      ${fillsHtml}
+      <div class="close-form">
+        <button class="btn btn-ghost btn-sm" onclick="showClose(${t.id})">Tutup posisi (full/partial)</button>
+        <div id="cf_${t.id}" style="display:none;margin-top:14px">
+          <div class="grid3">
+            <div class="field"><label>Unit ditutup (kosongkan = full ${t.remainingUnits})</label><input id="cu_${t.id}" class="num-in num" type="number" step="1" placeholder="${t.remainingUnits}"></div>
+            <div class="field"><label>Harga keluar (USD)</label><input id="ce_${t.id}" class="num-in num" type="number" step="0.01" placeholder="${t.entry}"></div>
+            <div class="field"><label>USD/IDR saat keluar</label><input id="cfx_${t.id}" class="num-in num" type="number" step="1" placeholder="${t.fxIn}"></div>
+          </div>
+          <div class="field"><label>Lo ngerasa apa pas exit? (1 kalimat jujur)</label><input id="cemo_${t.id}" placeholder="cut sesuai rencana / panik / fomo / sabar..."></div>
+          <div class="actions">
+            <button class="btn btn-gold btn-sm" onclick="closeTrade(${t.id},false)">Tutup sebagian unit</button>
+            <button class="btn btn-ghost btn-sm" onclick="closeTrade(${t.id},true)">Tutup semua sisa (${t.remainingUnits}u)</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // closed list
+  document.getElementById('closedCt').textContent=closed.length?`(${closed.length})`:'';
+  const cl=document.getElementById('closedList');
+  if(!closed.length)cl.innerHTML='<div class="empty">Belum ada trade tertutup. Statistik di atas nyala begitu lo tutup posisi pertama.</div>';
+  else cl.innerHTML=closed.map(t=>{
+    const p=tradePnl(t);
+    const lastEmo=t.fills.length?t.fills[t.fills.length-1].emo:'';
+    const isPartial=t.fills.length>1;
+    return `<div class="trade">
+      <div class="trade-top">
+        <div>
+          <div class="tkr">${t.ticker}<span class="side">${t.side}</span>${isPartial?'<span class="badge partial">'+t.fills.length+' fills</span>':'<span class="badge full">full</span>'}</div>
+          <div class="meta">${new Date(t.openedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u2192 ${new Date(t.closedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u00b7 ${t.setupType} \u00b7 ${t.units}u @ ${fmtUSD(t.entry)}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="amt ${cls(p.totalIDR)}" style="font-family:'Space Grotesk';font-weight:600;font-size:17px">${sign(p.totalIDR)}${fmtIDR(p.totalIDR)}</div>
+          <div class="meta">net total</div>
+        </div>
+      </div>
+      <div class="pnl-split">
+        <div class="seg"><div class="lbl">Dari saham (USD)</div><div class="amt ${cls(p.stockUSD)}">${sign(p.stockUSD)}${fmtUSD(p.stockUSD)}</div></div>
+        <div class="seg"><div class="lbl">Saham (Rp)</div><div class="amt ${cls(p.stockIDR)}">${sign(p.stockIDR)}${fmtIDR(p.stockIDR)}</div></div>
+        <div class="seg"><div class="lbl">Dari kurs (Rp)</div><div class="amt ${cls(p.fxIDR)}">${sign(p.fxIDR)}${fmtIDR(p.fxIDR)}</div></div>
+      </div>
+      ${isPartial?`<div class="partial-log">${t.fills.map(f=>{
+        const fp=fillPnl(t,f);
+        return `<div class="row"><span>${f.units}u @ ${fmtUSD(f.exit)} ${f.emo?'\u2014 "'+f.emo+'"':''}</span><span class="${cls(fp.totalIDR)}">${sign(fp.totalIDR)}${fmtIDR(fp.totalIDR)}</span></div>`;
+      }).join('')}</div>`:(lastEmo?`<div class="emo"><b>Catatan:</b> ${lastEmo}</div>`:'')}
+      <div class="row-btns"><button class="x" onclick="delTrade(${t.id})">hapus</button></div>
+    </div>`;
+  }).join('');
+}
+
+// ----- analytics view -----
+function renderAnalytics(){
+  const closed=trades.filter(t=>t.status==='closed');
+  const body=document.getElementById('analyticsBody');
+  if(!closed.length){
+    body.innerHTML='<div class="empty">Belum ada data buat dianalisis. Tutup minimal beberapa trade dulu.</div>';
+    return;
+  }
+  const rows=closed.map(t=>({t,p:tradePnl(t),score:checklistScore(t)}));
+
+  // 1. Checklist compliance correlation — the key insight
+  const fullCompliance=rows.filter(r=>r.score===5);
+  const partialCompliance=rows.filter(r=>r.score<5);
+  const fcWinRate=fullCompliance.length?Math.round(fullCompliance.filter(r=>r.p.totalIDR>0).length/fullCompliance.length*100):null;
+  const pcWinRate=partialCompliance.length?Math.round(partialCompliance.filter(r=>r.p.totalIDR>0).length/partialCompliance.length*100):null;
+  const fcAvg=fullCompliance.length?fullCompliance.reduce((a,r)=>a+r.p.totalIDR,0)/fullCompliance.length:null;
+  const pcAvg=partialCompliance.length?partialCompliance.reduce((a,r)=>a+r.p.totalIDR,0)/partialCompliance.length:null;
+
+  let insightHtml='';
+  if(fullCompliance.length&&partialCompliance.length){
+    const better=fcAvg>pcAvg;
+    insightHtml=`<div class="insight-card">
+      <div class="t">Checklist Compliance vs Hasil</div>
+      <div class="d">Trade dengan checklist <b>lengkap (5/5)</b>: win rate ${fcWinRate}%, avg P&L ${fmtIDR(fcAvg)}/trade (${fullCompliance.length} trade).<br>
+      Trade dengan checklist <b>gak lengkap</b>: win rate ${pcWinRate}%, avg P&L ${fmtIDR(pcAvg)}/trade (${partialCompliance.length} trade).<br>
+      ${better?'Data lo konsisten sama teori: disiplin checklist = hasil lebih baik. Pertahankan.':'Menarik — secara angka, trade yang checklist-nya gak lengkap malah lebih untung. Hati-hati nginterpretasi ini sebagai "checklist gak penting" — sample size kecil bisa nipu. Tetep pegang disiplin, ini insight buat direnungin bukan buat dijadikan alasan skip checklist.'}</div>
+    </div>`;
+  } else {
+    insightHtml=`<div class="insight-card"><div class="t">Checklist Compliance</div><div class="d">Semua trade tertutup lo checklist-nya ${fullCompliance.length?'lengkap':'belum lengkap'} — butuh variasi data dulu buat liat korelasi compliance vs hasil. Lanjut isi checklist jujur tiap entry.</div></div>`;
+  }
+
+  // 2. Breakdown per setup type
+  const bySetup={};
+  rows.forEach(r=>{
+    const k=r.t.setupType||'Lainnya';
+    if(!bySetup[k])bySetup[k]={count:0,wins:0,total:0};
+    bySetup[k].count++;
+    if(r.p.totalIDR>0)bySetup[k].wins++;
+    bySetup[k].total+=r.p.totalIDR;
+  });
+  const setupEntries=Object.entries(bySetup).sort((a,b)=>b[1].total-a[1].total);
+  const maxAbs=Math.max(...setupEntries.map(([,v])=>Math.abs(v.total)),1);
+  const setupBars=setupEntries.map(([name,v])=>{
+    const pct=Math.abs(v.total)/maxAbs*100;
+    const wr=Math.round(v.wins/v.count*100);
+    return `<div class="bar-row">
+      <div class="lbl">${name}</div>
+      <div class="bar-track"><div class="bar-fill ${v.total>=0?'':''}" style="width:${pct}%;background:${v.total>=0?'var(--up)':'var(--down)'}"></div></div>
+      <div class="bar-val ${cls(v.total)}">${sign(v.total)}${fmtIDR(v.total)}</div>
+    </div>
+    <div style="font-size:10.5px;color:var(--paper-faint);margin:-6px 0 10px 100px;font-family:'JetBrains Mono',monospace">${v.count} trade \u00b7 ${wr}% win rate</div>`;
+  }).join('');
+
+  // 3. R:R achieved vs planned, and overall summary table
+  const wins=rows.filter(r=>r.p.totalIDR>0);
+  const losses=rows.filter(r=>r.p.totalIDR<0);
+  const winRate=Math.round(wins.length/rows.length*100);
+  const totalNet=rows.reduce((a,r)=>a+r.p.totalIDR,0);
+  const avgConv=rows.reduce((a,r)=>a+(+r.t.conv||0),0)/rows.length;
+  const partialTrades=rows.filter(r=>r.t.fills.length>1).length;
+
+  // 4. emotion tag frequency on losses
+  const lossEmos=losses.flatMap(r=>r.t.fills.map(f=>f.emo)).filter(Boolean);
+  const emoCount={};
+  lossEmos.forEach(e=>{const k=e.toLowerCase();emoCount[k]=(emoCount[k]||0)+1;});
+  const topEmo=Object.entries(emoCount).sort((a,b)=>b[1]-a[1]).slice(0,3);
+
+  body.innerHTML=`
+    <div class="ag">
+      <div class="stat"><div class="k">Total trade tertutup</div><div class="v">${closed.length}</div></div>
+      <div class="stat"><div class="k">Win rate</div><div class="v ${winRate>=50?'up':'down'}">${winRate}%</div></div>
+      <div class="stat"><div class="k">Net P&L total</div><div class="v ${cls(totalNet)}">${sign(totalNet)}${fmtIDR(totalNet)}</div></div>
+      <div class="stat"><div class="k">Avg conviction</div><div class="v">${avgConv.toFixed(1)}/5</div></div>
+    </div>
+
+    ${insightHtml}
+
+    <div class="panel">
+      <h2>Performa per Setup Type</h2>
+      <p class="lead">Setup mana yang sebenarnya kerja buat lo.</p>
+      ${setupBars||'<div class="empty">Belum ada data.</div>'}
+    </div>
+
+    <div class="panel">
+      <h2>Pola Emosi Saat Rugi</h2>
+      <p class="lead">Kata-kata yang paling sering muncul pas lo tutup posisi rugi.</p>
+      ${topEmo.length?`<table class="simple"><tr><th>Catatan emosi</th><th>Frekuensi</th></tr>${topEmo.map(([e,c])=>`<tr><td>"${e}"</td><td>${c}x</td></tr>`).join('')}</table>`:'<div class="empty">Belum ada catatan emosi di trade rugi.</div>'}
+      <p class="hint" style="margin-top:12px">Tip: kalau kata yang sering muncul itu "fomo", "panik", atau "revenge" — itu sinyal jelas buat benerin proses entry, bukan cuma analisa teknikal.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Ringkasan</h2>
+      <table class="simple">
+        <tr><th>Metrik</th><th>Nilai</th></tr>
+        <tr><td>Trade partial close</td><td>${partialTrades} dari ${closed.length}</td></tr>
+        <tr><td>Rata-rata menang</td><td class="up">${wins.length?fmtIDR(wins.reduce((a,r)=>a+r.p.totalIDR,0)/wins.length):'\u2014'}</td></tr>
+        <tr><td>Rata-rata kalah</td><td class="down">${losses.length?fmtIDR(Math.abs(losses.reduce((a,r)=>a+r.p.totalIDR,0)/losses.length)):'\u2014'}</td></tr>
+        <tr><td>Total efek kurs</td><td class="${cls(rows.reduce((a,r)=>a+r.p.fxIDR,0))}">${fmtIDR(rows.reduce((a,r)=>a+r.p.fxIDR,0))}</td></tr>
+      </table>
+    </div>
+  `;
+}
+
+function setCap(){
+  const v=prompt('Maksimal berapa trade per minggu? (rekomendasi 3\u20135 buat ngerem overtrade)',weekCap);
+  if(v&&!isNaN(v)&&+v>0){weekCap=Math.floor(+v);saveCap();render();}
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify({trades,weekCap},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='jurnal-trade-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function importData(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      const imported=Array.isArray(data)?data:data.trades;
+      if(!Array.isArray(imported))throw new Error('format salah');
+      if(!confirm(`Import ${imported.length} trade? Ini akan DITAMBAHKAN ke data yang sudah ada (bukan replace).`))return;
+      imported.forEach(t=>{
+        if(!t.fills)t.fills=[];
+        if(t.remainingUnits===undefined)t.remainingUnits=t.units;
+        if(!t.checklist)t.checklist={};
+        if(!t.setupType)t.setupType='Lainnya';
+      });
+      trades=[...imported,...trades];
+      if(!Array.isArray(data)&&data.weekCap)weekCap=data.weekCap;
+      save();saveCap();render();
+      alert('Import berhasil.');
+    }catch(err){alert('Gagal import — pastikan file JSON hasil export dari jurnal ini.');}
+  };
+  reader.readAsText(file);
+  evt.target.value='';
+}
+
+load();
+</script>
+</body>
+</html>

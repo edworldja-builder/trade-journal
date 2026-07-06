@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://apis.google.com/js/api.js" async defer></script>
 <style>
   :root{
     --ink:#0c0e13;
@@ -122,6 +124,8 @@
   .cl-progress .pct{color:var(--gold);font-weight:700;min-width:32px;text-align:right}
   .checklist.complete .pct{color:var(--up)}
   .checklist.complete .fill{background:linear-gradient(90deg,var(--up),#7ec99a)}
+  .cl-toggle{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--paper-faint);background:none;border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;white-space:nowrap;margin-left:10px;transition:.15s}
+  .cl-toggle:hover{color:var(--gold);border-color:var(--gold-dim)}
   .cl-item{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft)}
   .cl-item:last-child{border-bottom:none}
   .cl-item input[type=checkbox]{width:19px;height:19px;flex-shrink:0;margin-top:1px;accent-color:var(--gold);cursor:pointer}
@@ -151,6 +155,20 @@
   .pnl-split .seg .amt{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px}
   .up{color:var(--up)}.down{color:var(--down)}
   .close-form{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+  .exit-checklist{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:4px 14px;margin-bottom:14px;transition:border-color .3s,box-shadow .3s}
+  .exit-checklist.complete{border-color:var(--up);box-shadow:0 0 0 1px rgba(95,169,121,.1)}
+  .exit-cl-progress{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--paper-faint);padding:10px 0 8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .exit-cl-progress .track{flex:1;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+  .exit-cl-progress .fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:2px;transition:width .25s ease}
+  .exit-checklist.complete .exit-cl-progress .fill{background:linear-gradient(90deg,var(--up),#7ec99a)}
+  .exit-cl-progress .pct{color:var(--gold);font-weight:700;font-size:10px;min-width:28px;text-align:right}
+  .exit-checklist.complete .exit-cl-progress .pct{color:var(--up)}
+  .exit-cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft)}
+  .exit-cl-item:last-child{border-bottom:none}
+  .exit-cl-item input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:var(--up);cursor:pointer}
+  .exit-cl-item label{margin:0;cursor:pointer;color:var(--paper-dim);font-size:12.5px;font-weight:400;flex:1}
+  .exit-cl-item .cl-desc{display:block;color:var(--paper-faint);font-size:11px;margin-top:2px;line-height:1.4}
+  .exit-gate-msg{font-size:11.5px;color:var(--warn);font-family:'JetBrains Mono',monospace}
   .partial-log{margin-top:11px;padding:11px 13px;background:var(--ink);border-radius:9px;font-size:12px;color:var(--paper-dim)}
   .partial-log .row{display:flex;justify-content:space-between;padding:4px 0}
   .emo{font-size:12.5px;color:var(--paper-faint);margin-top:11px}
@@ -194,6 +212,29 @@
     .tabs{width:100%}
     .tab{flex:1;text-align:center}
   }
+
+  /* Google Drive sync panel */
+  .drive-panel{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:14px;padding:20px;margin-top:20px;box-shadow:var(--shadow-card)}
+  .drive-panel .dp-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .drive-panel .dp-head svg{flex-shrink:0;opacity:.7}
+  .drive-panel .dp-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px}
+  .drive-panel .dp-sub{font-size:12px;color:var(--paper-faint);margin-top:2px}
+  .drive-status{font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:9px 13px;border-radius:8px;background:var(--ink);border:1px solid var(--line);margin-bottom:14px;min-height:36px;display:flex;align-items:center;gap:8px;color:var(--paper-faint)}
+  .drive-status .dot{width:7px;height:7px;border-radius:50%;background:var(--paper-faint);flex-shrink:0}
+  .drive-status.ok .dot{background:var(--up);box-shadow:0 0 6px var(--up)}
+  .drive-status.ok{color:var(--paper-dim)}
+  .drive-status.err .dot{background:var(--down)}
+  .drive-status.err{color:var(--down)}
+  .drive-status.loading .dot{background:var(--warn);animation:blink .8s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .drive-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .dp-setup{margin-bottom:16px}
+  .dp-setup label{font-size:11px;color:var(--paper-dim);margin-bottom:6px;display:block;letter-spacing:.03em}
+  .dp-setup input{font-family:'JetBrains Mono',monospace;font-size:12px}
+  .dp-setup .hint{font-size:11px;color:var(--paper-faint);margin-top:5px;line-height:1.4}
+  .dp-divider{height:1px;background:var(--line-soft);margin:14px 0}
+  .sync-time{font-size:11px;color:var(--paper-faint);font-family:'JetBrains Mono',monospace}
+
 </style>
 </head>
 <body>
@@ -240,6 +281,7 @@
           <span id="clProgressTxt">0/5 kriteria</span>
           <div class="track"><div class="fill" id="clFill" style="width:0%"></div></div>
           <span class="pct" id="clProgressPct">0%</span>
+          <button type="button" class="cl-toggle" id="clToggleBtn" onclick="toggleAllChecklist()">Centang semua</button>
         </div>
         <div class="cl-item">
           <input type="checkbox" id="c_news" onchange="gate()">
@@ -320,6 +362,8 @@
           <option value="">— pilih —</option>
           <option value="Breakout">Breakout</option>
           <option value="Pullback">Pullback</option>
+          <option value="Support Buy">Support Buy</option>
+          <option value="Resistance Buy">Resistance Buy</option>
           <option value="Order Block">Order Block</option>
           <option value="VWAP Reclaim">VWAP Reclaim</option>
           <option value="Earnings Play">Earnings Play</option>
@@ -354,6 +398,52 @@
       <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">Import JSON</button>
       <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
       <button class="btn btn-ghost" onclick="setCap()">Atur batas trade/minggu</button>
+    </div>
+
+    <!-- Google Drive sync panel -->
+    <div class="drive-panel">
+      <div class="dp-head">
+        <svg width="20" height="20" viewBox="0 0 87.3 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0a15.92 15.92 0 003.35 8.5z" fill="#0066da"/>
+          <path d="M43.65 25L29.9 1.2A15.74 15.74 0 0026.6 4.5L.1 50.35a15.87 15.87 0 00-0.1 8.3H27.5z" fill="#00ac47"/>
+          <path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25a15.87 15.87 0 000-16.6l-26.6-46.1a15.74 15.74 0 00-3.3-3.3L43.65 25l16.15 27.95z" fill="#ea4335"/>
+          <path d="M43.65 25L57.4 1.2A15.74 15.74 0 0054.1 1.2l-.1.1a15.74 15.74 0 00-3.3 0L29.9 1.2A15.74 15.74 0 0026.6 4.5L43.65 25z" fill="#00832d"/>
+          <path d="M59.8 52.95H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+          <path d="M73.4 26.45l-13.3-23.05a15.74 15.74 0 00-3.3-3.3L43.65 25l16.15 27.95H87.2a15.87 15.87 0 00.1-8.3z" fill="#ffba00"/>
+        </svg>
+        <div>
+          <div class="dp-title">Google Drive Sync</div>
+          <div class="dp-sub">Data tersimpan otomatis ke Drive — bisa diakses dari device mana pun</div>
+        </div>
+        <div style="margin-left:auto">
+          <button class="btn btn-ghost btn-sm" onclick="toggleDriveSetup()" id="driveSetupToggle">Setup</button>
+        </div>
+      </div>
+
+      <div id="driveSetupArea" style="display:none">
+        <div class="dp-setup">
+          <label>Google OAuth Client ID <span style="color:var(--gold)">●</span></label>
+          <input type="text" id="driveClientId" placeholder="xxxx.apps.googleusercontent.com" oninput="saveClientId()">
+          <div class="hint">
+            Bikin di <b>console.cloud.google.com</b> → APIs & Services → Credentials → OAuth 2.0 Client ID (Web Application).
+            Tambahin URL app lo di "Authorized JavaScript origins".
+            Lihat panduan lengkap di <b>DEPLOY.md</b>.
+          </div>
+        </div>
+        <div class="dp-divider"></div>
+      </div>
+
+      <div class="drive-status" id="driveStatus">
+        <div class="dot"></div>
+        <span id="driveStatusTxt">Belum terhubung — klik Connect di bawah</span>
+      </div>
+
+      <div class="drive-actions">
+        <button class="btn btn-ghost btn-sm" id="driveConnectBtn" onclick="driveConnect()">Connect Google Drive</button>
+        <button class="btn btn-gold btn-sm" id="driveSaveBtn" onclick="driveSave()" disabled>Simpan ke Drive</button>
+        <button class="btn btn-ghost btn-sm" id="driveLoadBtn" onclick="driveLoad()" disabled>Load dari Drive</button>
+        <span class="sync-time" id="driveSyncTime"></span>
+      </div>
     </div>
   </div>
 
@@ -405,10 +495,38 @@ function load(){
 }
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(trades));}catch(e){alert('Gagal simpan — storage browser penuh/diblokir.');}
+  autoSyncDrive();
 }
 function saveCap(){try{localStorage.setItem(CAPKEY,JSON.stringify(weekCap));}catch(e){}}
 
 // ----- gate logic -----
+function toggleAllChecklist(){
+  const allChecked=CL_KEYS.every(id=>document.getElementById(id).checked);
+  CL_KEYS.forEach(id=>document.getElementById(id).checked=!allChecked);
+  gate();
+}
+
+const EXIT_CL_KEYS=(id)=>['ex1_'+id,'ex2_'+id,'ex3_'+id,'ex4_'+id];
+function exitGate(id){
+  const keys=EXIT_CL_KEYS(id);
+  const checkedCt=keys.filter(k=>document.getElementById(k)&&document.getElementById(k).checked).length;
+  const allOk=checkedCt===4;
+  const pct=Math.round(checkedCt/4*100);
+
+  document.getElementById('eclTxt_'+id).textContent=`${checkedCt}/4 kriteria exit`;
+  document.getElementById('eclFill_'+id).style.width=pct+'%';
+  document.getElementById('eclPct_'+id).textContent=pct+'%';
+  document.getElementById('ecl_'+id).classList.toggle('complete',allOk);
+
+  const exitOk=allOk&&document.getElementById('ce_'+id).value&&document.getElementById('cfx_'+id).value;
+  document.getElementById('exitPartBtn_'+id).disabled=!exitOk;
+  document.getElementById('exitFullBtn_'+id).disabled=!exitOk;
+  const msg=document.getElementById('exitGateMsg_'+id);
+  if(exitOk){msg.textContent='Siap exit ✓';msg.style.color='var(--up)';}
+  else if(!allOk){msg.textContent='Centang checklist exit dulu ●';msg.style.color='var(--warn)';}
+  else{msg.textContent='Isi harga keluar & USD/IDR ●';msg.style.color='var(--warn)';}
+}
+
 function gate(){
   const checklistOk=CL_KEYS.every(id=>document.getElementById(id).checked);
   const checkedCt=CL_KEYS.filter(id=>document.getElementById(id).checked).length;
@@ -417,6 +535,7 @@ function gate(){
   document.getElementById('clProgressPct').textContent=pct+'%';
   document.getElementById('clFill').style.width=pct+'%';
   document.getElementById('checklist').classList.toggle('complete',checklistOk);
+  document.getElementById('clToggleBtn').textContent=checklistOk?'Batal semua':'Centang semua';
 
   const req=['f_ticker','f_entry','f_units','f_fx','f_target','f_stop','f_reason','f_setuptype'];
   const fieldsOk=req.every(id=>document.getElementById(id).value.trim()!=='');
@@ -477,6 +596,7 @@ function openTrade(){
   document.getElementById('f_setuptype').value='';
   CL_KEYS.forEach(id=>document.getElementById(id).checked=false);
   gate();
+  document.getElementById('clToggleBtn').textContent='Centang semua';
 }
 
 function showClose(id){
@@ -626,15 +746,49 @@ function render(){
       <div class="close-form">
         <button class="btn btn-ghost btn-sm" onclick="showClose(${t.id})">Tutup posisi (full/partial)</button>
         <div id="cf_${t.id}" style="display:none;margin-top:14px">
+
+          <div class="exit-checklist" id="ecl_${t.id}">
+            <div class="exit-cl-progress">
+              <span id="eclTxt_${t.id}">0/4 kriteria exit</span>
+              <div class="track"><div class="fill" id="eclFill_${t.id}" style="width:0%"></div></div>
+              <span class="pct" id="eclPct_${t.id}">0%</span>
+            </div>
+            <div class="exit-cl-item">
+              <input type="checkbox" id="ex1_${t.id}" onchange="exitGate(${t.id})">
+              <label for="ex1_${t.id}">Harga exit sesuai TP/SL yang sudah di-set
+                <span class="cl-desc">Bukan nebak-nebak di tengah jalan. TP lo ${fmtUSD(t.target)}, SL lo ${fmtUSD(t.stop)}.</span>
+              </label>
+            </div>
+            <div class="exit-cl-item">
+              <input type="checkbox" id="ex2_${t.id}" onchange="exitGate(${t.id})">
+              <label for="ex2_${t.id}">Bukan karena panik atau boredom
+                <span class="cl-desc">Lo exit karena alasan teknikal/plan, bukan karena candle merah sebentar atau udah bosen nunggu.</span>
+              </label>
+            </div>
+            <div class="exit-cl-item">
+              <input type="checkbox" id="ex3_${t.id}" onchange="exitGate(${t.id})">
+              <label for="ex3_${t.id}">Sudah cek chart sebelum exit
+                <span class="cl-desc">Lo udah lihat timeframe yang relevan — bukan asal klik exit sambil liat notifikasi harga.</span>
+              </label>
+            </div>
+            <div class="exit-cl-item">
+              <input type="checkbox" id="ex4_${t.id}" onchange="exitGate(${t.id})">
+              <label for="ex4_${t.id}">Tidak exit lebih awal karena FOMO ticker lain
+                <span class="cl-desc">Bukan karena ada saham lain yang lagi naik dan lo pengen pindah modal.</span>
+              </label>
+            </div>
+          </div>
+
           <div class="grid3">
-            <div class="field"><label>Unit ditutup (kosongkan = full ${t.remainingUnits})</label><input id="cu_${t.id}" class="num-in num" type="number" step="1" placeholder="${t.remainingUnits}"></div>
-            <div class="field"><label>Harga keluar (USD)</label><input id="ce_${t.id}" class="num-in num" type="number" step="0.01" placeholder="${t.entry}"></div>
-            <div class="field"><label>USD/IDR saat keluar</label><input id="cfx_${t.id}" class="num-in num" type="number" step="1" placeholder="${t.fxIn}"></div>
+            <div class="field"><label>Unit ditutup (kosongkan = full ${t.remainingUnits})</label><input id="cu_${t.id}" class="num-in num" type="number" step="1" placeholder="${t.remainingUnits}" oninput="exitGate(${t.id})"></div>
+            <div class="field"><label>Harga keluar (USD) <span class="req">●</span></label><input id="ce_${t.id}" class="num-in num" type="number" step="0.01" placeholder="${t.entry}" oninput="exitGate(${t.id})"></div>
+            <div class="field"><label>USD/IDR saat keluar <span class="req">●</span></label><input id="cfx_${t.id}" class="num-in num" type="number" step="1" placeholder="${t.fxIn}" oninput="exitGate(${t.id})"></div>
           </div>
           <div class="field"><label>Lo ngerasa apa pas exit? (1 kalimat jujur)</label><input id="cemo_${t.id}" placeholder="cut sesuai rencana / panik / fomo / sabar..."></div>
           <div class="actions">
-            <button class="btn btn-gold btn-sm" onclick="closeTrade(${t.id},false)">Tutup sebagian unit</button>
-            <button class="btn btn-ghost btn-sm" onclick="closeTrade(${t.id},true)">Tutup semua sisa (${t.remainingUnits}u)</button>
+            <button class="btn btn-gold btn-sm" id="exitPartBtn_${t.id}" onclick="closeTrade(${t.id},false)" disabled>Tutup sebagian unit</button>
+            <button class="btn btn-ghost btn-sm" id="exitFullBtn_${t.id}" onclick="closeTrade(${t.id},true)" disabled>Tutup semua sisa (${t.remainingUnits}u)</button>
+            <span class="exit-gate-msg" id="exitGateMsg_${t.id}">Centang checklist exit dulu ●</span>
           </div>
         </div>
       </div>
@@ -653,7 +807,7 @@ function render(){
       <div class="trade-top">
         <div>
           <div class="tkr">${t.ticker}<span class="side">${t.side}</span>${isPartial?'<span class="badge partial">'+t.fills.length+' fills</span>':'<span class="badge full">full</span>'}</div>
-          <div class="meta">${new Date(t.openedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u2192 ${new Date(t.closedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u00b7 ${t.setupType} \u00b7 ${t.units}u @ ${fmtUSD(t.entry)}</div>
+          <div class="meta">${new Date(t.openedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u2192 ${new Date(t.closedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} \u00b7 ${t.setupType} \u00b7 ${t.units}u @ ${fmtUSD(t.entry)} \u2192 exit ${t.fills.length===1?fmtUSD(t.fills[0].exit):'multi-fill'}</div>
         </div>
         <div style="text-align:right">
           <div class="amt ${cls(p.totalIDR)}" style="font-family:'Space Grotesk';font-weight:600;font-size:17px">${sign(p.totalIDR)}${fmtIDR(p.totalIDR)}</div>
@@ -665,10 +819,10 @@ function render(){
         <div class="seg"><div class="lbl">Saham (Rp)</div><div class="amt ${cls(p.stockIDR)}">${sign(p.stockIDR)}${fmtIDR(p.stockIDR)}</div></div>
         <div class="seg"><div class="lbl">Dari kurs (Rp)</div><div class="amt ${cls(p.fxIDR)}">${sign(p.fxIDR)}${fmtIDR(p.fxIDR)}</div></div>
       </div>
-      ${isPartial?`<div class="partial-log">${t.fills.map(f=>{
+      <div class="partial-log">${t.fills.map(f=>{
         const fp=fillPnl(t,f);
-        return `<div class="row"><span>${f.units}u @ ${fmtUSD(f.exit)} ${f.emo?'\u2014 "'+f.emo+'"':''}</span><span class="${cls(fp.totalIDR)}">${sign(fp.totalIDR)}${fmtIDR(fp.totalIDR)}</span></div>`;
-      }).join('')}</div>`:(lastEmo?`<div class="emo"><b>Catatan:</b> ${lastEmo}</div>`:'')}
+        return `<div class="row"><span>${f.units}u @ ${fmtUSD(f.exit)}${f.emo?' \u2014 "'+f.emo+'"':''}</span><span class="${cls(fp.totalIDR)}">${sign(fp.totalIDR)}${fmtIDR(fp.totalIDR)}</span></div>`;
+      }).join('')}</div>
       <div class="row-btns"><button class="x" onclick="delTrade(${t.id})">hapus</button></div>
     </div>`;
   }).join('');
@@ -811,7 +965,240 @@ function importData(evt){
   evt.target.value='';
 }
 
+// ==================== GOOGLE DRIVE SYNC ====================
+const DRIVE_KEY='pluang_drive_client_id';
+const DRIVE_SYNC_KEY='pluang_drive_sync_meta';
+const DRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
+const DRIVE_FILENAME='jurnal-trade-otoman.json';
+
+let driveToken=null;
+let driveFileId=null;
+let driveReady=false;
+
+function saveClientId(){
+  const v=document.getElementById('driveClientId').value.trim();
+  try{localStorage.setItem(DRIVE_KEY,v);}catch(e){}
+}
+
+function toggleDriveSetup(){
+  const area=document.getElementById('driveSetupArea');
+  const btn=document.getElementById('driveSetupToggle');
+  const visible=area.style.display!=='none';
+  area.style.display=visible?'none':'block';
+  btn.textContent=visible?'Setup':'Tutup';
+}
+
+function setDriveStatus(msg,state=''){
+  const el=document.getElementById('driveStatus');
+  el.className='drive-status '+(state||'');
+  document.getElementById('driveStatusTxt').textContent=msg;
+}
+
+function initDriveUI(){
+  const clientId=localStorage.getItem(DRIVE_KEY)||'';
+  if(clientId)document.getElementById('driveClientId').value=clientId;
+  const meta=JSON.parse(localStorage.getItem(DRIVE_SYNC_KEY)||'{}');
+  if(meta.fileId)driveFileId=meta.fileId;
+  if(meta.lastSync){
+    document.getElementById('driveSyncTime').textContent='Terakhir sync: '+new Date(meta.lastSync).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  }
+}
+
+async function driveConnect(){
+  const clientId=(document.getElementById('driveClientId').value.trim())||localStorage.getItem(DRIVE_KEY)||'';
+  if(!clientId){
+    toggleDriveSetup();
+    setDriveStatus('Isi Client ID dulu di bagian Setup atas','err');
+    return;
+  }
+
+  setDriveStatus('Menghubungkan ke Google...','loading');
+  document.getElementById('driveConnectBtn').disabled=true;
+
+  try{
+    // Load GAPI client
+    await new Promise((res,rej)=>{
+      if(window.gapi&&window.gapi.client){res();return;}
+      window.gapi.load('client',{callback:res,onerror:rej});
+    });
+
+    await window.gapi.client.init({
+      discoveryDocs:['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+    });
+
+    // Request token via Google Identity Services
+    driveToken = await new Promise((res,rej)=>{
+      const tokenClient=window.google.accounts.oauth2.initTokenClient({
+        client_id:clientId,
+        scope:DRIVE_SCOPE,
+        callback:(resp)=>{
+          if(resp.error){rej(new Error(resp.error));}
+          else res(resp.access_token);
+        }
+      });
+      tokenClient.requestAccessToken({prompt:'consent'});
+    });
+
+    window.gapi.client.setToken({access_token:driveToken});
+    driveReady=true;
+
+    document.getElementById('driveSaveBtn').disabled=false;
+    document.getElementById('driveLoadBtn').disabled=false;
+    document.getElementById('driveConnectBtn').textContent='Reconnect';
+    document.getElementById('driveConnectBtn').disabled=false;
+
+    // Try to find existing file
+    await driveFindOrCreateFile(false);
+    setDriveStatus(driveFileId?'Terhubung — file ditemukan di Drive':'Terhubung — file baru akan dibuat saat pertama simpan','ok');
+
+  }catch(err){
+    console.error('Drive connect error:',err);
+    setDriveStatus('Gagal connect: '+err.message,'err');
+    document.getElementById('driveConnectBtn').disabled=false;
+  }
+}
+
+async function driveFindOrCreateFile(createIfMissing=true){
+  // Search for existing file with this name
+  const resp=await window.gapi.client.drive.files.list({
+    q:`name='${DRIVE_FILENAME}' and trashed=false`,
+    spaces:'drive',
+    fields:'files(id,name,modifiedTime)'
+  });
+
+  const files=resp.result.files||[];
+  if(files.length>0){
+    driveFileId=files[0].id;
+    saveDriveMeta();
+    return true;
+  }
+
+  if(createIfMissing){
+    // Create new file with empty data
+    const emptyData=JSON.stringify({trades:[],weekCap:5});
+    const created=await driveUploadFile(emptyData,null);
+    driveFileId=created;
+    saveDriveMeta();
+  }
+  return false;
+}
+
+function saveDriveMeta(){
+  const meta={fileId:driveFileId,lastSync:Date.now()};
+  try{localStorage.setItem(DRIVE_SYNC_KEY,JSON.stringify(meta));}catch(e){}
+  document.getElementById('driveSyncTime').textContent='Terakhir sync: '+new Date().toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+}
+
+async function driveUploadFile(content,fileId){
+  const metadata={name:DRIVE_FILENAME,mimeType:'application/json'};
+  const boundary='-------314159265358979';
+  const delimiter='\r\n--'+boundary+'\r\n';
+  const close_delim='\r\n--'+boundary+'--';
+
+  const multipartBody=
+    delimiter+'Content-Type: application/json\r\n\r\n'+JSON.stringify(metadata)+
+    delimiter+'Content-Type: application/json\r\n\r\n'+content+
+    close_delim;
+
+  const method=fileId?'PATCH':'POST';
+  const url=fileId
+    ?`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`
+    :'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+
+  const resp=await fetch(url,{
+    method,
+    headers:{
+      'Authorization':'Bearer '+driveToken,
+      'Content-Type':'multipart/related; boundary="'+boundary.replace('-------','------')+'"'
+    },
+    body:multipartBody
+  });
+
+  if(!resp.ok)throw new Error('Upload gagal: '+resp.status+' '+resp.statusText);
+  const result=await resp.json();
+  return result.id;
+}
+
+async function driveSave(){
+  if(!driveReady){setDriveStatus('Connect dulu ke Google Drive','err');return;}
+  setDriveStatus('Menyimpan ke Drive...','loading');
+  document.getElementById('driveSaveBtn').disabled=true;
+
+  try{
+    if(!driveFileId)await driveFindOrCreateFile(true);
+    const content=JSON.stringify({trades,weekCap},null,2);
+    const newId=await driveUploadFile(content,driveFileId);
+    if(newId)driveFileId=newId;
+    saveDriveMeta();
+    setDriveStatus('Tersimpan di Drive ✓ — bisa diakses dari device lain','ok');
+  }catch(err){
+    console.error('Drive save error:',err);
+    setDriveStatus('Gagal simpan: '+err.message,'err');
+  }finally{
+    document.getElementById('driveSaveBtn').disabled=false;
+  }
+}
+
+async function driveLoad(){
+  if(!driveReady){setDriveStatus('Connect dulu ke Google Drive','err');return;}
+  setDriveStatus('Mengambil data dari Drive...','loading');
+  document.getElementById('driveLoadBtn').disabled=true;
+
+  try{
+    if(!driveFileId){
+      const found=await driveFindOrCreateFile(false);
+      if(!found){setDriveStatus('Belum ada data tersimpan di Drive — simpan dulu dari device ini','err');document.getElementById('driveLoadBtn').disabled=false;return;}
+    }
+
+    const resp=await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`,{
+      headers:{'Authorization':'Bearer '+driveToken}
+    });
+    if(!resp.ok)throw new Error('Gagal ambil data: '+resp.status);
+
+    const data=await resp.json();
+    const imported=Array.isArray(data)?data:data.trades;
+    if(!Array.isArray(imported))throw new Error('Format data di Drive tidak valid');
+
+    const localCount=trades.length;
+    const driveCount=imported.length;
+
+    const choice=confirm(
+      `Data di Drive: ${driveCount} trade.\nData lokal sekarang: ${localCount} trade.\n\n`+
+      `Klik OK = GANTI data lokal dengan data dari Drive (data lokal hilang).\n`+
+      `Klik Cancel = batalkan load.`
+    );
+    if(!choice){setDriveStatus('Load dibatalkan','');document.getElementById('driveLoadBtn').disabled=false;return;}
+
+    imported.forEach(t=>{
+      if(!t.fills)t.fills=[];
+      if(t.remainingUnits===undefined)t.remainingUnits=t.units;
+      if(!t.checklist)t.checklist={};
+      if(!t.setupType)t.setupType='Lainnya';
+    });
+
+    trades=imported;
+    if(!Array.isArray(data)&&data.weekCap)weekCap=data.weekCap;
+    save();saveCap();render();
+    saveDriveMeta();
+    setDriveStatus(`Data berhasil dimuat dari Drive (${driveCount} trade) ✓`,'ok');
+
+  }catch(err){
+    console.error('Drive load error:',err);
+    setDriveStatus('Gagal load: '+err.message,'err');
+  }finally{
+    document.getElementById('driveLoadBtn').disabled=false;
+  }
+}
+
+// Auto-save ke Drive setelah setiap operasi tulis (kalau udah connect)
+function autoSyncDrive(){
+  if(driveReady&&driveToken){
+    setTimeout(()=>{driveSave();},1000);
+  }
+}
+// ==================== END GOOGLE DRIVE SYNC ====================
+
 load();
-</script>
+initDriveUI();</script>
 </body>
 </html>

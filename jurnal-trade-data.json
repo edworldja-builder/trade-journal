@@ -241,7 +241,7 @@
       "setupType": "Pullback",
       "entry": 206.5,
       "units": 50,
-      "remainingUnits": 5,
+      "remainingUnits": 0,
       "fxIn": 17900,
       "target": 240,
       "stop": 190,
@@ -274,10 +274,18 @@
           "fxOut": 18090,
           "emo": "tp 3 siap2 mau tutup semua posisi karena 210 ada options gede banget",
           "closedAt": 1783699991763
+        },
+        {
+          "units": 5,
+          "exit": 209.7625,
+          "fxOut": 18090,
+          "emo": "dah capek main nvda",
+          "closedAt": 1783702489914
         }
       ],
       "openedAt": 1782836353284,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1783702489914
     },
     {
       "id": 1782835952966,

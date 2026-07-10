@@ -7,8 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://apis.google.com/js/api.js" async defer></script>
 <style>
   :root{
     --ink:#0c0e13;
@@ -213,10 +211,9 @@
     .tab{flex:1;text-align:center}
   }
 
-  /* Google Drive sync panel */
+  /* GitHub sync panel */
   .drive-panel{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:14px;padding:20px;margin-top:20px;box-shadow:var(--shadow-card)}
   .drive-panel .dp-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-  .drive-panel .dp-head svg{flex-shrink:0;opacity:.7}
   .drive-panel .dp-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px}
   .drive-panel .dp-sub{font-size:12px;color:var(--paper-faint);margin-top:2px}
   .drive-status{font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:9px 13px;border-radius:8px;background:var(--ink);border:1px solid var(--line);margin-bottom:14px;min-height:36px;display:flex;align-items:center;gap:8px;color:var(--paper-faint)}
@@ -278,7 +275,7 @@
 
       <div class="checklist" id="checklist">
         <div class="cl-progress">
-          <span id="clProgressTxt">0/5 kriteria</span>
+          <span id="clProgressTxt">0/6 kriteria</span>
           <div class="track"><div class="fill" id="clFill" style="width:0%"></div></div>
           <span class="pct" id="clProgressPct">0%</span>
           <button type="button" class="cl-toggle" id="clToggleBtn" onclick="toggleAllChecklist()">Centang semua</button>
@@ -311,6 +308,12 @@
           <input type="checkbox" id="c_calm" onchange="gate()">
           <label for="c_calm">Bukan revenge trade / FOMO
             <span class="cl-desc">Lo masuk karena setup-nya valid, bukan karena pengen balas dendam ke market atau takut ketinggalan.</span>
+          </label>
+        </div>
+        <div class="cl-item">
+          <input type="checkbox" id="c_options" onchange="gate()">
+          <label for="c_options">Sudah cek options contract
+            <span class="cl-desc">Cek open interest, volume, dan flow options sebagai konfirmasi arah sebelum entry.</span>
           </label>
         </div>
       </div>
@@ -400,48 +403,47 @@
       <button class="btn btn-ghost" onclick="setCap()">Atur batas trade/minggu</button>
     </div>
 
-    <!-- Google Drive sync panel -->
+    <!-- GitHub sync panel -->
     <div class="drive-panel">
       <div class="dp-head">
-        <svg width="20" height="20" viewBox="0 0 87.3 78" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0a15.92 15.92 0 003.35 8.5z" fill="#0066da"/>
-          <path d="M43.65 25L29.9 1.2A15.74 15.74 0 0026.6 4.5L.1 50.35a15.87 15.87 0 00-0.1 8.3H27.5z" fill="#00ac47"/>
-          <path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25a15.87 15.87 0 000-16.6l-26.6-46.1a15.74 15.74 0 00-3.3-3.3L43.65 25l16.15 27.95z" fill="#ea4335"/>
-          <path d="M43.65 25L57.4 1.2A15.74 15.74 0 0054.1 1.2l-.1.1a15.74 15.74 0 00-3.3 0L29.9 1.2A15.74 15.74 0 0026.6 4.5L43.65 25z" fill="#00832d"/>
-          <path d="M59.8 52.95H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
-          <path d="M73.4 26.45l-13.3-23.05a15.74 15.74 0 00-3.3-3.3L43.65 25l16.15 27.95H87.2a15.87 15.87 0 00.1-8.3z" fill="#ffba00"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--paper-dim)" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
         </svg>
         <div>
-          <div class="dp-title">Google Drive Sync</div>
-          <div class="dp-sub">Data tersimpan otomatis ke Drive — bisa diakses dari device mana pun</div>
+          <div class="dp-title">GitHub Sync</div>
+          <div class="dp-sub">Data tersimpan ke repo GitHub lo — akses dari device mana pun</div>
         </div>
         <div style="margin-left:auto">
-          <button class="btn btn-ghost btn-sm" onclick="toggleDriveSetup()" id="driveSetupToggle">Setup</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleGhSetup()" id="ghSetupToggle">Setup</button>
         </div>
       </div>
 
-      <div id="driveSetupArea" style="display:none">
+      <div id="ghSetupArea" style="display:none">
         <div class="dp-setup">
-          <label>Google OAuth Client ID <span style="color:var(--gold)">●</span></label>
-          <input type="text" id="driveClientId" placeholder="xxxx.apps.googleusercontent.com" oninput="saveClientId()">
-          <div class="hint">
-            Bikin di <b>console.cloud.google.com</b> → APIs & Services → Credentials → OAuth 2.0 Client ID (Web Application).
-            Tambahin URL app lo di "Authorized JavaScript origins".
-            Lihat panduan lengkap di <b>DEPLOY.md</b>.
-          </div>
+          <label>GitHub Personal Access Token <span style="color:var(--gold)">●</span></label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" oninput="saveGhConfig()">
+          <div class="hint">Ke <b>github.com/settings/tokens</b> → Generate new token (classic) → centang scope <b>repo</b> → Generate → paste di sini.<br>Token disimpan lokal di browser lo, tidak dikirim ke mana pun kecuali GitHub.</div>
+        </div>
+        <div class="dp-setup">
+          <label>Nama repo GitHub <span style="color:var(--gold)">●</span></label>
+          <input type="text" id="ghRepo" placeholder="jurnal-trade" oninput="saveGhConfig()">
+          <div class="hint">Nama repo yang lo buat di GitHub, contoh: <b>jurnal-trade</b></div>
+        </div>
+        <div class="dp-setup">
+          <label>Username GitHub <span style="color:var(--gold)">●</span></label>
+          <input type="text" id="ghUser" placeholder="username-lo" oninput="saveGhConfig()">
         </div>
         <div class="dp-divider"></div>
       </div>
 
       <div class="drive-status" id="driveStatus">
         <div class="dot"></div>
-        <span id="driveStatusTxt">Belum terhubung — klik Connect di bawah</span>
+        <span id="driveStatusTxt">Isi token, repo, dan username di Setup → lalu klik Simpan atau Load</span>
       </div>
 
       <div class="drive-actions">
-        <button class="btn btn-ghost btn-sm" id="driveConnectBtn" onclick="driveConnect()">Connect Google Drive</button>
-        <button class="btn btn-gold btn-sm" id="driveSaveBtn" onclick="driveSave()" disabled>Simpan ke Drive</button>
-        <button class="btn btn-ghost btn-sm" id="driveLoadBtn" onclick="driveLoad()" disabled>Load dari Drive</button>
+        <button class="btn btn-gold btn-sm" onclick="ghSave()">Simpan ke GitHub</button>
+        <button class="btn btn-ghost btn-sm" onclick="ghLoad()">Load dari GitHub</button>
         <span class="sync-time" id="driveSyncTime"></span>
       </div>
     </div>
@@ -464,8 +466,8 @@ const fmtUSD=n=>(n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US',{minimumFrac
 const fmtIDR=n=>(n<0?'-':'')+'Rp'+Math.abs(Math.round(n)).toLocaleString('id-ID');
 const cls=n=>n>0?'up':(n<0?'down':'');
 const sign=n=>n>0?'+':'';
-const CL_KEYS=['c_news','c_setup','c_rr','c_size','c_calm'];
-const CL_LABELS={c_news:'News/Catalyst',c_setup:'Setup Teknikal',c_rr:'R:R \u22652',c_size:'Sizing OK',c_calm:'Tenang'};
+const CL_KEYS=['c_news','c_setup','c_rr','c_size','c_calm','c_options'];
+const CL_LABELS={c_news:'News/Catalyst',c_setup:'Setup Teknikal',c_rr:'R:R \u22652',c_size:'Sizing OK',c_calm:'Tenang',c_options:'Cek Options'};
 
 // ----- view switching -----
 function switchView(v){
@@ -506,14 +508,21 @@ function toggleAllChecklist(){
   gate();
 }
 
-const EXIT_CL_KEYS=(id)=>['ex1_'+id,'ex2_'+id,'ex3_'+id,'ex4_'+id];
+function toggleAllExit(id){
+  const keys=EXIT_CL_KEYS(id);
+  const allChecked=keys.every(k=>document.getElementById(k)&&document.getElementById(k).checked);
+  keys.forEach(k=>{const el=document.getElementById(k);if(el)el.checked=!allChecked;});
+  exitGate(id);
+}
+
+const EXIT_CL_KEYS=(id)=>['ex1_'+id,'ex2_'+id,'ex3_'+id,'ex4_'+id,'ex5_'+id];
 function exitGate(id){
   const keys=EXIT_CL_KEYS(id);
   const checkedCt=keys.filter(k=>document.getElementById(k)&&document.getElementById(k).checked).length;
-  const allOk=checkedCt===4;
-  const pct=Math.round(checkedCt/4*100);
+  const allOk=checkedCt===5;
+  const pct=Math.round(checkedCt/5*100);
 
-  document.getElementById('eclTxt_'+id).textContent=`${checkedCt}/4 kriteria exit`;
+  document.getElementById('eclTxt_'+id).textContent=`${checkedCt}/5 kriteria exit`;
   document.getElementById('eclFill_'+id).style.width=pct+'%';
   document.getElementById('eclPct_'+id).textContent=pct+'%';
   document.getElementById('ecl_'+id).classList.toggle('complete',allOk);
@@ -749,9 +758,10 @@ function render(){
 
           <div class="exit-checklist" id="ecl_${t.id}">
             <div class="exit-cl-progress">
-              <span id="eclTxt_${t.id}">0/4 kriteria exit</span>
+              <span id="eclTxt_${t.id}">0/5 kriteria exit</span>
               <div class="track"><div class="fill" id="eclFill_${t.id}" style="width:0%"></div></div>
               <span class="pct" id="eclPct_${t.id}">0%</span>
+              <button type="button" class="cl-toggle" onclick="toggleAllExit(${t.id})">Centang semua</button>
             </div>
             <div class="exit-cl-item">
               <input type="checkbox" id="ex1_${t.id}" onchange="exitGate(${t.id})">
@@ -775,6 +785,12 @@ function render(){
               <input type="checkbox" id="ex4_${t.id}" onchange="exitGate(${t.id})">
               <label for="ex4_${t.id}">Tidak exit lebih awal karena FOMO ticker lain
                 <span class="cl-desc">Bukan karena ada saham lain yang lagi naik dan lo pengen pindah modal.</span>
+              </label>
+            </div>
+            <div class="exit-cl-item">
+              <input type="checkbox" id="ex5_${t.id}" onchange="exitGate(${t.id})">
+              <label for="ex5_${t.id}">Sudah cek options contract
+                <span class="cl-desc">Cek apakah flow options masih sejalan sama arah lo — kalau berbalik, itu sinyal valid buat exit.</span>
               </label>
             </div>
           </div>
@@ -965,28 +981,10 @@ function importData(evt){
   evt.target.value='';
 }
 
-// ==================== GOOGLE DRIVE SYNC ====================
-const DRIVE_KEY='pluang_drive_client_id';
-const DRIVE_SYNC_KEY='pluang_drive_sync_meta';
-const DRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
-const DRIVE_FILENAME='jurnal-trade-otoman.json';
-
-let driveToken=null;
-let driveFileId=null;
-let driveReady=false;
-
-function saveClientId(){
-  const v=document.getElementById('driveClientId').value.trim();
-  try{localStorage.setItem(DRIVE_KEY,v);}catch(e){}
-}
-
-function toggleDriveSetup(){
-  const area=document.getElementById('driveSetupArea');
-  const btn=document.getElementById('driveSetupToggle');
-  const visible=area.style.display!=='none';
-  area.style.display=visible?'none':'block';
-  btn.textContent=visible?'Setup':'Tutup';
-}
+// ==================== GITHUB SYNC ====================
+const GH_KEY='pluang_gh_config';
+const GH_SYNC_KEY='pluang_gh_sync_meta';
+const GH_FILENAME='jurnal-trade-data.json';
 
 function setDriveStatus(msg,state=''){
   const el=document.getElementById('driveStatus');
@@ -994,180 +992,104 @@ function setDriveStatus(msg,state=''){
   document.getElementById('driveStatusTxt').textContent=msg;
 }
 
-function initDriveUI(){
-  const clientId=localStorage.getItem(DRIVE_KEY)||'';
-  if(clientId)document.getElementById('driveClientId').value=clientId;
-  const meta=JSON.parse(localStorage.getItem(DRIVE_SYNC_KEY)||'{}');
-  if(meta.fileId)driveFileId=meta.fileId;
+function saveGhConfig(){
+  const cfg={
+    token:document.getElementById('ghToken').value.trim(),
+    repo:document.getElementById('ghRepo').value.trim(),
+    user:document.getElementById('ghUser').value.trim()
+  };
+  try{localStorage.setItem(GH_KEY,JSON.stringify(cfg));}catch(e){}
+}
+
+function toggleGhSetup(){
+  const area=document.getElementById('ghSetupArea');
+  const btn=document.getElementById('ghSetupToggle');
+  const visible=area.style.display!=='none';
+  area.style.display=visible?'none':'block';
+  btn.textContent=visible?'Setup':'Tutup';
+}
+
+function getGhConfig(){
+  try{return JSON.parse(localStorage.getItem(GH_KEY)||'{}');}catch(e){return {};}
+}
+
+function initGhUI(){
+  const cfg=getGhConfig();
+  if(cfg.token)document.getElementById('ghToken').value=cfg.token;
+  if(cfg.repo)document.getElementById('ghRepo').value=cfg.repo;
+  if(cfg.user)document.getElementById('ghUser').value=cfg.user;
+  const meta=JSON.parse(localStorage.getItem(GH_SYNC_KEY)||'{}');
   if(meta.lastSync){
     document.getElementById('driveSyncTime').textContent='Terakhir sync: '+new Date(meta.lastSync).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
   }
-}
-
-async function driveConnect(){
-  const clientId=(document.getElementById('driveClientId').value.trim())||localStorage.getItem(DRIVE_KEY)||'';
-  if(!clientId){
-    toggleDriveSetup();
-    setDriveStatus('Isi Client ID dulu di bagian Setup atas','err');
-    return;
-  }
-
-  setDriveStatus('Menghubungkan ke Google...','loading');
-  document.getElementById('driveConnectBtn').disabled=true;
-
-  try{
-    // Load GAPI client
-    await new Promise((res,rej)=>{
-      if(window.gapi&&window.gapi.client){res();return;}
-      window.gapi.load('client',{callback:res,onerror:rej});
-    });
-
-    await window.gapi.client.init({
-      discoveryDocs:['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
-    });
-
-    // Request token via Google Identity Services
-    driveToken = await new Promise((res,rej)=>{
-      const tokenClient=window.google.accounts.oauth2.initTokenClient({
-        client_id:clientId,
-        scope:DRIVE_SCOPE,
-        callback:(resp)=>{
-          if(resp.error){rej(new Error(resp.error));}
-          else res(resp.access_token);
-        }
-      });
-      tokenClient.requestAccessToken({prompt:'consent'});
-    });
-
-    window.gapi.client.setToken({access_token:driveToken});
-    driveReady=true;
-
-    document.getElementById('driveSaveBtn').disabled=false;
-    document.getElementById('driveLoadBtn').disabled=false;
-    document.getElementById('driveConnectBtn').textContent='Reconnect';
-    document.getElementById('driveConnectBtn').disabled=false;
-
-    // Try to find existing file
-    await driveFindOrCreateFile(false);
-    setDriveStatus(driveFileId?'Terhubung — file ditemukan di Drive':'Terhubung — file baru akan dibuat saat pertama simpan','ok');
-
-  }catch(err){
-    console.error('Drive connect error:',err);
-    setDriveStatus('Gagal connect: '+err.message,'err');
-    document.getElementById('driveConnectBtn').disabled=false;
+  if(cfg.token&&cfg.repo&&cfg.user){
+    setDriveStatus('Config tersimpan — siap Simpan / Load','ok');
   }
 }
 
-async function driveFindOrCreateFile(createIfMissing=true){
-  // Search for existing file with this name
-  const resp=await window.gapi.client.drive.files.list({
-    q:`name='${DRIVE_FILENAME}' and trashed=false`,
-    spaces:'drive',
-    fields:'files(id,name,modifiedTime)'
-  });
-
-  const files=resp.result.files||[];
-  if(files.length>0){
-    driveFileId=files[0].id;
-    saveDriveMeta();
-    return true;
-  }
-
-  if(createIfMissing){
-    // Create new file with empty data
-    const emptyData=JSON.stringify({trades:[],weekCap:5});
-    const created=await driveUploadFile(emptyData,null);
-    driveFileId=created;
-    saveDriveMeta();
-  }
-  return false;
-}
-
-function saveDriveMeta(){
-  const meta={fileId:driveFileId,lastSync:Date.now()};
-  try{localStorage.setItem(DRIVE_SYNC_KEY,JSON.stringify(meta));}catch(e){}
+function saveGhMeta(){
+  try{localStorage.setItem(GH_SYNC_KEY,JSON.stringify({lastSync:Date.now()}));}catch(e){}
   document.getElementById('driveSyncTime').textContent='Terakhir sync: '+new Date().toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
 }
 
-async function driveUploadFile(content,fileId){
-  const metadata={name:DRIVE_FILENAME,mimeType:'application/json'};
-  const boundary='-------314159265358979';
-  const delimiter='\r\n--'+boundary+'\r\n';
-  const close_delim='\r\n--'+boundary+'--';
-
-  const multipartBody=
-    delimiter+'Content-Type: application/json\r\n\r\n'+JSON.stringify(metadata)+
-    delimiter+'Content-Type: application/json\r\n\r\n'+content+
-    close_delim;
-
-  const method=fileId?'PATCH':'POST';
-  const url=fileId
-    ?`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`
-    :'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
-
-  const resp=await fetch(url,{
-    method,
-    headers:{
-      'Authorization':'Bearer '+driveToken,
-      'Content-Type':'multipart/related; boundary="'+boundary.replace('-------','------')+'"'
-    },
-    body:multipartBody
-  });
-
-  if(!resp.ok)throw new Error('Upload gagal: '+resp.status+' '+resp.statusText);
-  const result=await resp.json();
-  return result.id;
-}
-
-async function driveSave(){
-  if(!driveReady){setDriveStatus('Connect dulu ke Google Drive','err');return;}
-  setDriveStatus('Menyimpan ke Drive...','loading');
-  document.getElementById('driveSaveBtn').disabled=true;
-
+async function ghSave(){
+  const cfg=getGhConfig();
+  if(!cfg.token||!cfg.repo||!cfg.user){
+    toggleGhSetup();
+    setDriveStatus('Isi token, repo, dan username di Setup dulu','err');
+    return;
+  }
+  setDriveStatus('Menyimpan ke GitHub...','loading');
   try{
-    if(!driveFileId)await driveFindOrCreateFile(true);
     const content=JSON.stringify({trades,weekCap},null,2);
-    const newId=await driveUploadFile(content,driveFileId);
-    if(newId)driveFileId=newId;
-    saveDriveMeta();
-    setDriveStatus('Tersimpan di Drive ✓ — bisa diakses dari device lain','ok');
+    const b64=btoa(unescape(encodeURIComponent(content)));
+    const apiUrl=`https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${GH_FILENAME}`;
+
+    // cek apakah file udah ada (butuh SHA buat update)
+    let sha=null;
+    const check=await fetch(apiUrl,{headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json'}});
+    if(check.ok){const d=await check.json();sha=d.sha;}
+
+    const body={message:'sync: update jurnal trade '+new Date().toISOString().slice(0,10),content:b64};
+    if(sha)body.sha=sha;
+
+    const resp=await fetch(apiUrl,{
+      method:'PUT',
+      headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+    if(!resp.ok){const e=await resp.json();throw new Error(e.message||resp.status);}
+    saveGhMeta();
+    setDriveStatus('Tersimpan ke GitHub ✓ — bisa diload dari device lain','ok');
   }catch(err){
-    console.error('Drive save error:',err);
+    console.error('GH save error:',err);
     setDriveStatus('Gagal simpan: '+err.message,'err');
-  }finally{
-    document.getElementById('driveSaveBtn').disabled=false;
   }
 }
 
-async function driveLoad(){
-  if(!driveReady){setDriveStatus('Connect dulu ke Google Drive','err');return;}
-  setDriveStatus('Mengambil data dari Drive...','loading');
-  document.getElementById('driveLoadBtn').disabled=true;
-
+async function ghLoad(){
+  const cfg=getGhConfig();
+  if(!cfg.token||!cfg.repo||!cfg.user){
+    toggleGhSetup();
+    setDriveStatus('Isi token, repo, dan username di Setup dulu','err');
+    return;
+  }
+  setDriveStatus('Mengambil data dari GitHub...','loading');
   try{
-    if(!driveFileId){
-      const found=await driveFindOrCreateFile(false);
-      if(!found){setDriveStatus('Belum ada data tersimpan di Drive — simpan dulu dari device ini','err');document.getElementById('driveLoadBtn').disabled=false;return;}
-    }
-
-    const resp=await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`,{
-      headers:{'Authorization':'Bearer '+driveToken}
-    });
-    if(!resp.ok)throw new Error('Gagal ambil data: '+resp.status);
-
-    const data=await resp.json();
+    const apiUrl=`https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${GH_FILENAME}`;
+    const resp=await fetch(apiUrl,{headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json'}});
+    if(resp.status===404)throw new Error('File belum ada di repo — simpan dulu dari device ini');
+    if(!resp.ok){const e=await resp.json();throw new Error(e.message||resp.status);}
+    const d=await resp.json();
+    const content=decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+    const data=JSON.parse(content);
     const imported=Array.isArray(data)?data:data.trades;
-    if(!Array.isArray(imported))throw new Error('Format data di Drive tidak valid');
-
-    const localCount=trades.length;
-    const driveCount=imported.length;
+    if(!Array.isArray(imported))throw new Error('Format data di GitHub tidak valid');
 
     const choice=confirm(
-      `Data di Drive: ${driveCount} trade.\nData lokal sekarang: ${localCount} trade.\n\n`+
-      `Klik OK = GANTI data lokal dengan data dari Drive (data lokal hilang).\n`+
-      `Klik Cancel = batalkan load.`
+      `Data di GitHub: ${imported.length} trade.\nData lokal sekarang: ${trades.length} trade.\n\nKlik OK = GANTI data lokal dengan data dari GitHub.\nKlik Cancel = batalkan.`
     );
-    if(!choice){setDriveStatus('Load dibatalkan','');document.getElementById('driveLoadBtn').disabled=false;return;}
+    if(!choice){setDriveStatus('Load dibatalkan','');return;}
 
     imported.forEach(t=>{
       if(!t.fills)t.fills=[];
@@ -1175,30 +1097,30 @@ async function driveLoad(){
       if(!t.checklist)t.checklist={};
       if(!t.setupType)t.setupType='Lainnya';
     });
-
     trades=imported;
     if(!Array.isArray(data)&&data.weekCap)weekCap=data.weekCap;
     save();saveCap();render();
-    saveDriveMeta();
-    setDriveStatus(`Data berhasil dimuat dari Drive (${driveCount} trade) ✓`,'ok');
-
+    saveGhMeta();
+    setDriveStatus(`Data dimuat dari GitHub ✓ (${imported.length} trade)`,'ok');
   }catch(err){
-    console.error('Drive load error:',err);
+    console.error('GH load error:',err);
     setDriveStatus('Gagal load: '+err.message,'err');
-  }finally{
-    document.getElementById('driveLoadBtn').disabled=false;
   }
 }
 
-// Auto-save ke Drive setelah setiap operasi tulis (kalau udah connect)
+// Auto-sync setelah setiap save (kalau config lengkap)
+let ghSyncTimer=null;
 function autoSyncDrive(){
-  if(driveReady&&driveToken){
-    setTimeout(()=>{driveSave();},1000);
-  }
+  const cfg=getGhConfig();
+  if(!cfg.token||!cfg.repo||!cfg.user)return;
+  clearTimeout(ghSyncTimer);
+  ghSyncTimer=setTimeout(()=>{ghSave();},2000);
 }
-// ==================== END GOOGLE DRIVE SYNC ====================
+// ==================== END GITHUB SYNC ====================
 
 load();
-initDriveUI();</script>
+initGhUI();
+
+</script>
 </body>
 </html>

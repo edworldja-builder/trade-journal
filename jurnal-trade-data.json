@@ -1,6 +1,31 @@
 {
   "trades": [
     {
+      "id": 1783951399813,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "News Catalyst",
+      "entry": 535.75,
+      "units": 5,
+      "remainingUnits": 5,
+      "fxIn": 18209,
+      "target": 575,
+      "stop": 510,
+      "reason": "triple katalis, CPI lunak (semoga), TSM earnings, AMD earnings.\ndan masuk harga dip dikit dlu, kalau dip lagi hajar lebih gede",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [],
+      "openedAt": 1783951399813,
+      "status": "open"
+    },
+    {
       "id": 1783434721383,
       "ticker": "AMD",
       "side": "LONG",

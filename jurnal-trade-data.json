@@ -8,7 +8,7 @@
       "setupType": "Support Buy",
       "entry": 550,
       "units": 5,
-      "remainingUnits": 2,
+      "remainingUnits": 0,
       "fxIn": 18184,
       "target": 600,
       "stop": 525,
@@ -28,10 +28,18 @@
           "fxOut": 18214,
           "emo": "TP cepet aja ini",
           "closedAt": 1784043245439
+        },
+        {
+          "units": 2,
+          "exit": 558.78,
+          "fxOut": 18214,
+          "emo": "udahan dah amd , tggu dip lagi baru masuk lagi",
+          "closedAt": 1784045039256
         }
       ],
       "openedAt": 1784039316411,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784045039256
     },
     {
       "id": 1784016702974,

@@ -33,7 +33,7 @@
       "setupType": "Earnings Play",
       "entry": 545,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 0,
       "fxIn": 18091,
       "target": 575,
       "stop": 510,
@@ -46,9 +46,18 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 5,
+          "exit": 563.1,
+          "fxOut": 18214,
+          "emo": "TP aja TP",
+          "closedAt": 1784041904863
+        }
+      ],
       "openedAt": 1784016702975,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784041904863
     },
     {
       "id": 1783951399813,

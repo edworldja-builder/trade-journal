@@ -1,6 +1,31 @@
 {
   "trades": [
     {
+      "id": 1784016702974,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Earnings Play",
+      "entry": 545,
+      "units": 5,
+      "remainingUnits": 5,
+      "fxIn": 18091,
+      "target": 575,
+      "stop": 510,
+      "reason": "nambah muatan kmrn",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [],
+      "openedAt": 1784016702975,
+      "status": "open"
+    },
+    {
       "id": 1783951399813,
       "ticker": "AMD",
       "side": "LONG",

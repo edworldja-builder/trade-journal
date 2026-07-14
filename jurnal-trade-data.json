@@ -8,7 +8,7 @@
       "setupType": "Support Buy",
       "entry": 550,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 2,
       "fxIn": 18184,
       "target": 600,
       "stop": 525,
@@ -21,7 +21,15 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 3,
+          "exit": 565.096,
+          "fxOut": 18214,
+          "emo": "TP cepet aja ini",
+          "closedAt": 1784043245439
+        }
+      ],
       "openedAt": 1784039316411,
       "status": "open"
     },

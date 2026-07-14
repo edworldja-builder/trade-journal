@@ -1,6 +1,31 @@
 {
   "trades": [
     {
+      "id": 1784039316411,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "3",
+      "setupType": "Support Buy",
+      "entry": 550,
+      "units": 5,
+      "remainingUnits": 5,
+      "fxIn": 18184,
+      "target": 600,
+      "stop": 525,
+      "reason": "buy the dip, cicil dikit krn gw liat masih sisa 2 catalyst lagi nih.",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [],
+      "openedAt": 1784039316411,
+      "status": "open"
+    },
+    {
       "id": 1784016702974,
       "ticker": "AMD",
       "side": "LONG",

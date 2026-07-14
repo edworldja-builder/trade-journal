@@ -33,7 +33,7 @@
       "setupType": "News Catalyst",
       "entry": 535.75,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 0,
       "fxIn": 18209,
       "target": 575,
       "stop": 510,
@@ -46,9 +46,18 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 5,
+          "exit": 556.2752,
+          "fxOut": 18090,
+          "emo": "k miss TP 570",
+          "closedAt": 1784036615701
+        }
+      ],
       "openedAt": 1783951399813,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784036615701
     },
     {
       "id": 1783434721383,

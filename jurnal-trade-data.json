@@ -1,18 +1,18 @@
 {
   "trades": [
     {
-      "id": 1784039316411,
-      "ticker": "AMD",
+      "id": 1784134360841,
+      "ticker": "MRVL",
       "side": "LONG",
       "conv": "3",
-      "setupType": "Support Buy",
-      "entry": 550,
+      "setupType": "Order Block (LuxAlgo)",
+      "entry": 204.8,
       "units": 5,
-      "remainingUnits": 0,
-      "fxIn": 18184,
-      "target": 600,
-      "stop": 525,
-      "reason": "buy the dip, cicil dikit krn gw liat masih sisa 2 catalyst lagi nih.",
+      "remainingUnits": 5,
+      "fxIn": 18170,
+      "target": 218,
+      "stop": 195,
+      "reason": "buy the dip di OB, 15m, 1h, 4h.",
       "checklist": {
         "c_news": true,
         "c_setup": true,
@@ -21,93 +21,9 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [
-        {
-          "units": 3,
-          "exit": 565.096,
-          "fxOut": 18214,
-          "emo": "TP cepet aja ini",
-          "closedAt": 1784043245439
-        },
-        {
-          "units": 2,
-          "exit": 558.78,
-          "fxOut": 18214,
-          "emo": "udahan dah amd , tggu dip lagi baru masuk lagi",
-          "closedAt": 1784045039256
-        }
-      ],
-      "openedAt": 1784039316411,
-      "status": "closed",
-      "closedAt": 1784045039256
-    },
-    {
-      "id": 1784016702974,
-      "ticker": "AMD",
-      "side": "LONG",
-      "conv": "4",
-      "setupType": "Earnings Play",
-      "entry": 545,
-      "units": 5,
-      "remainingUnits": 0,
-      "fxIn": 18091,
-      "target": 575,
-      "stop": 510,
-      "reason": "nambah muatan kmrn",
-      "checklist": {
-        "c_news": true,
-        "c_setup": true,
-        "c_rr": true,
-        "c_size": true,
-        "c_calm": true,
-        "c_options": true
-      },
-      "fills": [
-        {
-          "units": 5,
-          "exit": 563.1,
-          "fxOut": 18214,
-          "emo": "TP aja TP",
-          "closedAt": 1784041904863
-        }
-      ],
-      "openedAt": 1784016702975,
-      "status": "closed",
-      "closedAt": 1784041904863
-    },
-    {
-      "id": 1783951399813,
-      "ticker": "AMD",
-      "side": "LONG",
-      "conv": "4",
-      "setupType": "News Catalyst",
-      "entry": 535.75,
-      "units": 5,
-      "remainingUnits": 0,
-      "fxIn": 18209,
-      "target": 575,
-      "stop": 510,
-      "reason": "triple katalis, CPI lunak (semoga), TSM earnings, AMD earnings.\ndan masuk harga dip dikit dlu, kalau dip lagi hajar lebih gede",
-      "checklist": {
-        "c_news": true,
-        "c_setup": true,
-        "c_rr": true,
-        "c_size": true,
-        "c_calm": true,
-        "c_options": true
-      },
-      "fills": [
-        {
-          "units": 5,
-          "exit": 556.2752,
-          "fxOut": 18090,
-          "emo": "k miss TP 570",
-          "closedAt": 1784036615701
-        }
-      ],
-      "openedAt": 1783951399813,
-      "status": "closed",
-      "closedAt": 1784036615701
+      "fills": [],
+      "openedAt": 1784134360841,
+      "status": "open"
     },
     {
       "id": 1783434721383,
@@ -350,7 +266,7 @@
       "setupType": "Pullback",
       "entry": 206.5,
       "units": 50,
-      "remainingUnits": 0,
+      "remainingUnits": 5,
       "fxIn": 17900,
       "target": 240,
       "stop": 190,
@@ -383,18 +299,10 @@
           "fxOut": 18090,
           "emo": "tp 3 siap2 mau tutup semua posisi karena 210 ada options gede banget",
           "closedAt": 1783699991763
-        },
-        {
-          "units": 5,
-          "exit": 209.7625,
-          "fxOut": 18090,
-          "emo": "dah capek main nvda",
-          "closedAt": 1783702489914
         }
       ],
       "openedAt": 1782836353284,
-      "status": "closed",
-      "closedAt": 1783702489914
+      "status": "open"
     },
     {
       "id": 1782835952966,

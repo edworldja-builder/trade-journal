@@ -1,6 +1,468 @@
 {
   "trades": [
     {
+      "id": 1784039316411,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "3",
+      "setupType": "Support Buy",
+      "entry": 550,
+      "units": 5,
+      "remainingUnits": 0,
+      "fxIn": 18184,
+      "target": 600,
+      "stop": 525,
+      "reason": "buy the dip, cicil dikit krn gw liat masih sisa 2 catalyst lagi nih.",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [
+        {
+          "units": 3,
+          "exit": 565.096,
+          "fxOut": 18214,
+          "emo": "TP cepet aja ini",
+          "closedAt": 1784043245439
+        },
+        {
+          "units": 2,
+          "exit": 558.78,
+          "fxOut": 18214,
+          "emo": "udahan dah amd , tggu dip lagi baru masuk lagi",
+          "closedAt": 1784045039256
+        }
+      ],
+      "openedAt": 1784039316411,
+      "status": "closed",
+      "closedAt": 1784045039256
+    },
+    {
+      "id": 1784016702974,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Earnings Play",
+      "entry": 545,
+      "units": 5,
+      "remainingUnits": 0,
+      "fxIn": 18091,
+      "target": 575,
+      "stop": 510,
+      "reason": "nambah muatan kmrn",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [
+        {
+          "units": 5,
+          "exit": 563.1,
+          "fxOut": 18214,
+          "emo": "TP aja TP",
+          "closedAt": 1784041904863
+        }
+      ],
+      "openedAt": 1784016702975,
+      "status": "closed",
+      "closedAt": 1784041904863
+    },
+    {
+      "id": 1783951399813,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "News Catalyst",
+      "entry": 535.75,
+      "units": 5,
+      "remainingUnits": 0,
+      "fxIn": 18209,
+      "target": 575,
+      "stop": 510,
+      "reason": "triple katalis, CPI lunak (semoga), TSM earnings, AMD earnings.\ndan masuk harga dip dikit dlu, kalau dip lagi hajar lebih gede",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [
+        {
+          "units": 5,
+          "exit": 556.2752,
+          "fxOut": 18090,
+          "emo": "k miss TP 570",
+          "closedAt": 1784036615701
+        }
+      ],
+      "openedAt": 1783951399813,
+      "status": "closed",
+      "closedAt": 1784036615701
+    },
+    {
+      "id": 1783434721383,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Support Buy",
+      "entry": 511.69,
+      "units": 4,
+      "remainingUnits": 0,
+      "fxIn": 18090,
+      "target": 550,
+      "stop": 490,
+      "reason": "support buy, ada garis order block, ada katalis juga. tp blm cek fibonaci lupa euy",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 2,
+          "exit": 540,
+          "fxOut": 18090,
+          "emo": "cuy sesuai rencana dan di area fib ,, amanin dlu setengah",
+          "closedAt": 1783601014915
+        },
+        {
+          "units": 2,
+          "exit": 548.8457,
+          "fxOut": 18090,
+          "emo": "uda sampai target. no fomo2 no emosional time",
+          "closedAt": 1783604399333
+        }
+      ],
+      "openedAt": 1783434721384,
+      "status": "closed",
+      "closedAt": 1783604399333
+    },
+    {
+      "id": 1783336036886,
+      "ticker": "TSLA",
+      "side": "LONG",
+      "conv": "5",
+      "setupType": "Pullback",
+      "entry": 397.93,
+      "units": 10,
+      "remainingUnits": 0,
+      "fxIn": 18000,
+      "target": 420,
+      "stop": 390,
+      "reason": "harga di vwap, support, fib 0.236, angka psikologis (blm confirm), catalyst earnings 22 juli",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 5,
+          "exit": 404.9474,
+          "fxOut": 18000,
+          "emo": "uda capai target harian.. amanin posisi",
+          "closedAt": 1783347744230
+        },
+        {
+          "units": 5,
+          "exit": 404.2801,
+          "fxOut": 18000,
+          "emo": "amanin posisi, tapi abis ini naik ke 409.. :(",
+          "closedAt": 1783350219962
+        }
+      ],
+      "openedAt": 1783336036886,
+      "status": "closed",
+      "closedAt": 1783350219962
+    },
+    {
+      "id": 1783334954687,
+      "ticker": "SPCX",
+      "side": "LONG",
+      "conv": "3",
+      "setupType": "Lainnya",
+      "entry": 164.79,
+      "units": 10,
+      "remainingUnits": 0,
+      "fxIn": 18000,
+      "target": 172,
+      "stop": 160,
+      "reason": "momentum play, katalis play masuk forced buy",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 10,
+          "exit": 160.4751,
+          "fxOut": 18000,
+          "emo": "salah entry sbnrnya ini, fomo",
+          "closedAt": 1783352819002
+        }
+      ],
+      "openedAt": 1783334954687,
+      "status": "closed",
+      "closedAt": 1783352819002
+    },
+    {
+      "id": 1783001335630,
+      "ticker": "SPCX",
+      "side": "LONG",
+      "conv": "3",
+      "setupType": "VWAP Reclaim",
+      "entry": 160.92,
+      "units": 10,
+      "remainingUnits": 0,
+      "fxIn": 18030,
+      "target": 175,
+      "stop": 155,
+      "reason": "daily trade, ato pun 7 juli harus keluar karena ada forced buy nasdaq 100",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 10,
+          "exit": 159.1,
+          "fxOut": 18030,
+          "emo": "ga ada momentum dan volume",
+          "closedAt": 1783001527564
+        }
+      ],
+      "openedAt": 1783001335630,
+      "status": "closed",
+      "closedAt": 1783001527564
+    },
+    {
+      "id": 1782913121451,
+      "ticker": "PLTR",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Breakout",
+      "entry": 122.85,
+      "units": 25,
+      "remainingUnits": 0,
+      "fxIn": 18000,
+      "target": 128,
+      "stop": 120,
+      "reason": "momentum play",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 12.5,
+          "exit": 125,
+          "fxOut": 18000,
+          "emo": "TP 1 amanin posisi",
+          "closedAt": 1782916134679
+        },
+        {
+          "units": 6.25,
+          "exit": 126.385,
+          "fxOut": 18000,
+          "emo": "tp 2",
+          "closedAt": 1782917206510
+        },
+        {
+          "units": 6.25,
+          "exit": 127.345,
+          "fxOut": 18000,
+          "emo": "uda capai target harian",
+          "closedAt": 1782917584087
+        }
+      ],
+      "openedAt": 1782913121451,
+      "status": "closed",
+      "closedAt": 1782917584087
+    },
+    {
+      "id": 1782836452268,
+      "ticker": "TSLA",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Breakout",
+      "entry": 407.4,
+      "units": 11,
+      "remainingUnits": 0,
+      "fxIn": 17900,
+      "target": 440,
+      "stop": 390,
+      "reason": "tembus dari 390 ke 400 (angka psikologi) dan ada order block juga di 400 pastinya",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 5,
+          "exit": 430.39,
+          "fxOut": 18000,
+          "emo": "TP 1",
+          "closedAt": 1782920861485
+        },
+        {
+          "units": 6,
+          "exit": 417.15,
+          "fxOut": 18000,
+          "emo": "di banting dari 432.. disiplin dahm orderblock jg hilang",
+          "closedAt": 1782999766109
+        }
+      ],
+      "openedAt": 1782836452268,
+      "status": "closed",
+      "closedAt": 1782999766109
+    },
+    {
+      "id": 1782836353284,
+      "ticker": "NVDA",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Pullback",
+      "entry": 206.5,
+      "units": 50,
+      "remainingUnits": 0,
+      "fxIn": 17900,
+      "target": 240,
+      "stop": 190,
+      "reason": "bias, beli di support, tapi ga ada katalis sebenernya.",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 15,
+          "exit": 207.57,
+          "fxOut": 18090,
+          "emo": "tp 1, uda lama megang barang ini dan target selanjutnya di 210 ato 215 ato gilanya di 225",
+          "closedAt": 1783693959518
+        },
+        {
+          "units": 15,
+          "exit": 208.99,
+          "fxOut": 18090,
+          "emo": "tp 2 disiplin. options indikator",
+          "closedAt": 1783698901530
+        },
+        {
+          "units": 15,
+          "exit": 209.28,
+          "fxOut": 18090,
+          "emo": "tp 3 siap2 mau tutup semua posisi karena 210 ada options gede banget",
+          "closedAt": 1783699991763
+        },
+        {
+          "units": 5,
+          "exit": 209.7625,
+          "fxOut": 18090,
+          "emo": "dah capek main nvda",
+          "closedAt": 1783702489914
+        }
+      ],
+      "openedAt": 1782836353284,
+      "status": "closed",
+      "closedAt": 1783702489914
+    },
+    {
+      "id": 1782835952966,
+      "ticker": "NVDA",
+      "side": "LONG",
+      "conv": "5",
+      "setupType": "Order Block",
+      "entry": 193.44,
+      "units": 10,
+      "remainingUnits": 0,
+      "fxIn": 17900,
+      "target": 200,
+      "stop": 190,
+      "reason": "support buy",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 10,
+          "exit": 198.18,
+          "fxOut": 17900,
+          "emo": "amanin posisi dulu",
+          "closedAt": 1782836278421
+        }
+      ],
+      "openedAt": 1782835952966,
+      "status": "closed",
+      "closedAt": 1782836278421
+    },
+    {
+      "id": 1782835712766,
+      "ticker": "SPCX",
+      "side": "LONG",
+      "conv": "5",
+      "setupType": "Breakout",
+      "entry": 167.1,
+      "units": 15,
+      "remainingUnits": 0,
+      "fxIn": 17930,
+      "target": 180,
+      "stop": 160,
+      "reason": "diatas vwap",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true
+      },
+      "fills": [
+        {
+          "units": 15,
+          "exit": 171.95,
+          "fxOut": 17930,
+          "emo": "uda capai target harian",
+          "closedAt": 1782835792165
+        }
+      ],
+      "openedAt": 1782835712766,
+      "status": "closed",
+      "closedAt": 1782835792165
+    },
+    {
       "id": 1784134360841,
       "ticker": "MRVL",
       "side": "LONG",

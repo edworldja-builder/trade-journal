@@ -343,60 +343,6 @@
       "closedAt": 1782999766109
     },
     {
-      "id": 1782836353284,
-      "ticker": "NVDA",
-      "side": "LONG",
-      "conv": "4",
-      "setupType": "Pullback",
-      "entry": 206.5,
-      "units": 50,
-      "remainingUnits": 0,
-      "fxIn": 17900,
-      "target": 240,
-      "stop": 190,
-      "reason": "bias, beli di support, tapi ga ada katalis sebenernya.",
-      "checklist": {
-        "c_news": true,
-        "c_setup": true,
-        "c_rr": true,
-        "c_size": true,
-        "c_calm": true
-      },
-      "fills": [
-        {
-          "units": 15,
-          "exit": 207.57,
-          "fxOut": 18090,
-          "emo": "tp 1, uda lama megang barang ini dan target selanjutnya di 210 ato 215 ato gilanya di 225",
-          "closedAt": 1783693959518
-        },
-        {
-          "units": 15,
-          "exit": 208.99,
-          "fxOut": 18090,
-          "emo": "tp 2 disiplin. options indikator",
-          "closedAt": 1783698901530
-        },
-        {
-          "units": 15,
-          "exit": 209.28,
-          "fxOut": 18090,
-          "emo": "tp 3 siap2 mau tutup semua posisi karena 210 ada options gede banget",
-          "closedAt": 1783699991763
-        },
-        {
-          "units": 5,
-          "exit": 209.7625,
-          "fxOut": 18090,
-          "emo": "dah capek main nvda",
-          "closedAt": 1783702489914
-        }
-      ],
-      "openedAt": 1782836353284,
-      "status": "closed",
-      "closedAt": 1783702489914
-    },
-    {
       "id": 1782835952966,
       "ticker": "NVDA",
       "side": "LONG",
@@ -719,52 +665,6 @@
       "openedAt": 1782836452268,
       "status": "closed",
       "closedAt": 1782999766109
-    },
-    {
-      "id": 1782836353284,
-      "ticker": "NVDA",
-      "side": "LONG",
-      "conv": "4",
-      "setupType": "Pullback",
-      "entry": 206.5,
-      "units": 50,
-      "remainingUnits": 5,
-      "fxIn": 17900,
-      "target": 240,
-      "stop": 190,
-      "reason": "bias, beli di support, tapi ga ada katalis sebenernya.",
-      "checklist": {
-        "c_news": true,
-        "c_setup": true,
-        "c_rr": true,
-        "c_size": true,
-        "c_calm": true
-      },
-      "fills": [
-        {
-          "units": 15,
-          "exit": 207.57,
-          "fxOut": 18090,
-          "emo": "tp 1, uda lama megang barang ini dan target selanjutnya di 210 ato 215 ato gilanya di 225",
-          "closedAt": 1783693959518
-        },
-        {
-          "units": 15,
-          "exit": 208.99,
-          "fxOut": 18090,
-          "emo": "tp 2 disiplin. options indikator",
-          "closedAt": 1783698901530
-        },
-        {
-          "units": 15,
-          "exit": 209.28,
-          "fxOut": 18090,
-          "emo": "tp 3 siap2 mau tutup semua posisi karena 210 ada options gede banget",
-          "closedAt": 1783699991763
-        }
-      ],
-      "openedAt": 1782836353284,
-      "status": "open"
     },
     {
       "id": 1782835952966,

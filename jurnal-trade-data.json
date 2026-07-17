@@ -416,7 +416,7 @@
       "setupType": "Order Block (LuxAlgo)",
       "entry": 204.8,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 0,
       "fxIn": 18170,
       "target": 218,
       "stop": 195,
@@ -429,9 +429,18 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 5,
+          "exit": 182.76,
+          "fxOut": 18000,
+          "emo": "stop loss stop losssss",
+          "closedAt": 1784257736643
+        }
+      ],
       "openedAt": 1784134360841,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784257736643
     },
     {
       "id": 1783434721383,

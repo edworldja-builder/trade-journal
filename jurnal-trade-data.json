@@ -8,7 +8,7 @@
       "setupType": "Pullback / Support",
       "entry": 858.99,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 1.25,
       "fxIn": 18000,
       "target": 900,
       "stop": 839,
@@ -21,7 +21,15 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 3.75,
+          "exit": 882,
+          "fxOut": 18000,
+          "emo": "To sesuai rencana",
+          "closedAt": 1784554442853
+        }
+      ],
       "openedAt": 1784515598862,
       "status": "open"
     },

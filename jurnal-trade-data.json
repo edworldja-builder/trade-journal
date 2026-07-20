@@ -8,7 +8,7 @@
       "setupType": "Pullback / Support",
       "entry": 858.99,
       "units": 5,
-      "remainingUnits": 1.25,
+      "remainingUnits": 0,
       "fxIn": 18000,
       "target": 900,
       "stop": 839,
@@ -28,10 +28,18 @@
           "fxOut": 18000,
           "emo": "To sesuai rencana",
           "closedAt": 1784554442853
+        },
+        {
+          "units": 1.25,
+          "exit": 892,
+          "fxOut": 18000,
+          "emo": "Cukup dlu",
+          "closedAt": 1784555774799
         }
       ],
       "openedAt": 1784515598862,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784555774799
     },
     {
       "id": 1784039316411,

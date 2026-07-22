@@ -1,6 +1,31 @@
 {
   "trades": [
     {
+      "id": 1784709557923,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "4",
+      "setupType": "Catalyst Play",
+      "entry": 533.69,
+      "units": 5,
+      "remainingUnits": 5,
+      "fxIn": 18000,
+      "target": 570,
+      "stop": 514,
+      "reason": "abis bounce, dan ada catalyst tipis2 di keynote presentation 22-23 juli, and earnings di 3 agustus, hopefully sesuai plan",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [],
+      "openedAt": 1784709557923,
+      "status": "open"
+    },
+    {
       "id": 1784515598862,
       "ticker": "MU",
       "side": "LONG",

@@ -1,6 +1,31 @@
 {
   "trades": [
     {
+      "id": 1784713227381,
+      "ticker": "MU",
+      "side": "LONG",
+      "conv": "3",
+      "setupType": "Pullback / Support",
+      "entry": 945,
+      "units": 2,
+      "remainingUnits": 2,
+      "fxIn": 18000,
+      "target": 1011,
+      "stop": 915,
+      "reason": "momentum aja sih, oversold, dan volume tinggi. catalystnya dari skyhenix earnings",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [],
+      "openedAt": 1784713227381,
+      "status": "open"
+    },
+    {
       "id": 1784709557923,
       "ticker": "AMD",
       "side": "LONG",

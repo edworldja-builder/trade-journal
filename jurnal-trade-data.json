@@ -8,7 +8,7 @@
       "setupType": "Pullback / Support",
       "entry": 945,
       "units": 2,
-      "remainingUnits": 2,
+      "remainingUnits": 1,
       "fxIn": 18000,
       "target": 1011,
       "stop": 915,
@@ -21,7 +21,15 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 1,
+          "exit": 974.54,
+          "fxOut": 18000,
+          "emo": "latian trailing stop TP",
+          "closedAt": 1784743449553
+        }
+      ],
       "openedAt": 1784713227381,
       "status": "open"
     },
@@ -33,7 +41,7 @@
       "setupType": "Catalyst Play",
       "entry": 533.69,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 0,
       "fxIn": 18000,
       "target": 570,
       "stop": 514,
@@ -46,9 +54,18 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 5,
+          "exit": 556.96,
+          "fxOut": 18000,
+          "emo": "ga sabar, mo tidur, beda sekitar 15 dollar doang lagian",
+          "closedAt": 1784741598350
+        }
+      ],
       "openedAt": 1784709557923,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784741598350
     },
     {
       "id": 1784515598862,

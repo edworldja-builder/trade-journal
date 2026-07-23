@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jurnal Trade v4 — Otoman</title>
+<title>Jurnal Trade v5 — Otoman</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -197,7 +197,24 @@
   .insight-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,var(--gold-wash),transparent 70%)}
   .insight-card .t{font-size:11.5px;color:var(--gold);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:7px;text-transform:uppercase;font-weight:700}
   .insight-card .d{font-size:13.5px;color:var(--paper-dim);line-height:1.6}
-  table.simple{width:100%;border-collapse:collapse;font-size:12.5px}
+  .monthly-row{display:grid;grid-template-columns:110px 1fr 80px 80px 90px;gap:0;border-bottom:1px solid var(--line-soft);cursor:pointer;transition:background .15s}
+  .monthly-row:hover{background:var(--ink-3)}
+  .monthly-row.header{border-bottom:1px solid var(--line);cursor:default}
+  .monthly-row.header:hover{background:none}
+  .monthly-row>div{padding:11px 12px;font-size:12.5px;display:flex;align-items:center}
+  .monthly-row.header>div{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--paper-faint);cursor:pointer;user-select:none;gap:4px}
+  .monthly-row.header>div:hover{color:var(--gold)}
+  .monthly-row.header>div.sorted{color:var(--gold)}
+  .sort-arrow{font-size:9px;opacity:.6}
+  .month-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px}
+  .month-bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:0 10px}
+  .month-bar-fill{height:100%;border-radius:3px}
+  .monthly-detail{background:var(--ink);border-bottom:1px solid var(--line-soft);padding:12px 14px;display:none}
+  .monthly-detail.open{display:block}
+  .monthly-detail .dt-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--line-soft);font-size:12px}
+  .monthly-detail .dt-row:last-child{border-bottom:none}
+  .cumulative-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:12px 0 6px;position:relative}
+  .cumulative-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .4s ease}
   table.simple th{text-align:left;color:var(--paper-faint);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:9px 11px;border-bottom:1px solid var(--line)}
   table.simple td{padding:10px 11px;border-bottom:1px solid var(--line-soft)}
   table.simple tr:last-child td{border-bottom:none}
@@ -238,7 +255,7 @@
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">Otoman · Jurnal Trade v4 · Swing US Stocks</div>
+      <div class="eyebrow">Otoman · Jurnal Trade v5 · Swing US Stocks</div>
       <h1>Jurnal Trade</h1>
       <p class="sub">Tugas bulan ini bukan cuan — tapi ngerti angka lo sendiri. Tiap trade wajib lolos checklist sebelum masuk, dan tiap exit dipisah: berapa dari saham, berapa dari kurs.</p>
     </div>
@@ -909,6 +926,53 @@ function renderAnalytics(){
   lossEmos.forEach(e=>{const k=e.toLowerCase();emoCount[k]=(emoCount[k]||0)+1;});
   const topEmo=Object.entries(emoCount).sort((a,b)=>b[1]-a[1]).slice(0,3);
 
+  // 5. Monthly breakdown
+  const byMonth={};
+  rows.forEach(r=>{
+    const d=new Date(r.t.closedAt);
+    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    const label=d.toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+    if(!byMonth[key])byMonth[key]={key,label,trades:[],pnl:0,wins:0};
+    byMonth[key].trades.push(r);
+    byMonth[key].pnl+=r.p.totalIDR;
+    if(r.p.totalIDR>0)byMonth[key].wins++;
+  });
+
+  // cumulative P&L per bulan (sorted by date)
+  const monthsSorted=Object.values(byMonth).sort((a,b)=>a.key.localeCompare(b.key));
+  let cumulative=0;
+  monthsSorted.forEach(m=>{m.cumulative=cumulative+=m.pnl;});
+  const maxCum=Math.max(...monthsSorted.map(m=>Math.abs(m.cumulative)),1);
+  const maxPnl=Math.max(...monthsSorted.map(m=>Math.abs(m.pnl)),1);
+
+  const monthHtml=`
+    <div class="panel">
+      <h2>Performa Bulanan</h2>
+      <p class="lead">Klik baris bulan untuk lihat detail trade. Klik header kolom untuk sort.</p>
+
+      <div style="margin-bottom:14px">
+        <div style="font-size:11px;color:var(--paper-faint);font-family:'JetBrains Mono',monospace;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Cumulative P&L</div>
+        <div class="cumulative-bar">
+          <div class="cumulative-fill" style="width:${Math.max(0,(monthsSorted[monthsSorted.length-1]?.cumulative||0))/maxCum*100}%;background:${(monthsSorted[monthsSorted.length-1]?.cumulative||0)>=0?'linear-gradient(90deg,var(--gold-dim),var(--gold))':'linear-gradient(90deg,#7a3535,var(--down))'}"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper-faint)">
+          <span>Start</span>
+          <span class="${cls(monthsSorted[monthsSorted.length-1]?.cumulative||0)}" style="font-weight:700;font-size:13px">${sign(monthsSorted[monthsSorted.length-1]?.cumulative||0)}${fmtIDR(monthsSorted[monthsSorted.length-1]?.cumulative||0)}</span>
+        </div>
+      </div>
+
+      <div style="background:var(--ink);border-radius:10px;overflow:hidden;border:1px solid var(--line-soft)" id="monthTable">
+        <div class="monthly-row header">
+          <div onclick="sortMonths('label')" id="mh_label">Bulan <span class="sort-arrow" id="ms_label"></span></div>
+          <div onclick="sortMonths('pnl')" id="mh_pnl">P&L <span class="sort-arrow" id="ms_pnl">↓</span></div>
+          <div onclick="sortMonths('wr')" id="mh_wr">Win Rate <span class="sort-arrow" id="ms_wr"></span></div>
+          <div onclick="sortMonths('ct')" id="mh_ct">Trade <span class="sort-arrow" id="ms_ct"></span></div>
+          <div onclick="sortMonths('cum')" id="mh_cum">Kumulatif <span class="sort-arrow" id="ms_cum"></span></div>
+        </div>
+        <div id="monthRows"></div>
+      </div>
+    </div>`;
+
   body.innerHTML=`
     <div class="ag">
       <div class="stat"><div class="k">Total trade tertutup</div><div class="v">${closed.length}</div></div>
@@ -918,6 +982,8 @@ function renderAnalytics(){
     </div>
 
     ${insightHtml}
+
+    ${monthHtml}
 
     <div class="panel">
       <h2>Performa per Setup Type</h2>
@@ -943,6 +1009,64 @@ function renderAnalytics(){
       </table>
     </div>
   `;
+
+  // store month data globally for sort
+  window._monthData=Object.values(byMonth).map(m=>({...m,wr:Math.round(m.wins/m.trades.length*100),ct:m.trades.length}));
+  window._monthSort={col:'pnl',dir:-1};
+  renderMonthRows();
+}
+
+function renderMonthRows(){
+  const {col,dir}=window._monthSort;
+  const data=[...window._monthData].sort((a,b)=>{
+    if(col==='label')return dir*a.key.localeCompare(b.key);
+    if(col==='pnl')return dir*(a.pnl-b.pnl);
+    if(col==='wr')return dir*(a.wr-b.wr);
+    if(col==='ct')return dir*(a.ct-b.ct);
+    if(col==='cum')return dir*(a.cumulative-b.cumulative);
+    return 0;
+  });
+  const maxPnl=Math.max(...data.map(m=>Math.abs(m.pnl)),1);
+  const container=document.getElementById('monthRows');
+  if(!container)return;
+  container.innerHTML=data.map(m=>{
+    const wr=m.wr;
+    const barW=Math.abs(m.pnl)/maxPnl*100;
+    const tradeRows=m.trades.map(r=>`
+      <div class="dt-row">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">${r.t.ticker} · ${new Date(r.t.closedAt).toLocaleDateString('id-ID',{day:'numeric',month:'short'})} · ${r.t.setupType}</span>
+        <span class="${cls(r.p.totalIDR)}" style="font-family:'JetBrains Mono',monospace;font-size:11.5px">${sign(r.p.totalIDR)}${fmtIDR(r.p.totalIDR)}</span>
+      </div>`).join('');
+    return `
+      <div class="monthly-row" onclick="toggleMonthDetail('md_${m.key}')">
+        <div><span class="month-name">${m.label}</span></div>
+        <div><div class="month-bar"><div class="month-bar-fill" style="width:${barW}%;background:${m.pnl>=0?'var(--up)':'var(--down)'}"></div></div><span class="${cls(m.pnl)}" style="font-family:'JetBrains Mono',monospace;font-size:12px;white-space:nowrap">${sign(m.pnl)}${fmtIDR(m.pnl)}</span></div>
+        <div class="${wr>=50?'up':'down'}" style="font-family:'JetBrains Mono',monospace">${wr}%</div>
+        <div style="color:var(--paper-dim);font-family:'JetBrains Mono',monospace">${m.ct}</div>
+        <div class="${cls(m.cumulative)}" style="font-family:'JetBrains Mono',monospace;font-size:11.5px">${sign(m.cumulative)}${fmtIDR(m.cumulative)}</div>
+      </div>
+      <div class="monthly-detail" id="md_${m.key}">${tradeRows}</div>`;
+  }).join('');
+}
+
+function sortMonths(col){
+  const s=window._monthSort;
+  if(s.col===col)s.dir*=-1;
+  else{s.col=col;s.dir=-1;}
+  // update header arrows
+  ['label','pnl','wr','ct','cum'].forEach(c=>{
+    const el=document.getElementById('ms_'+c);
+    const hd=document.getElementById('mh_'+c);
+    if(!el||!hd)return;
+    el.textContent=s.col===c?(s.dir===-1?'↓':'↑'):'';
+    hd.classList.toggle('sorted',s.col===c);
+  });
+  renderMonthRows();
+}
+
+function toggleMonthDetail(id){
+  const el=document.getElementById(id);
+  if(el)el.classList.toggle('open');
 }
 
 function setCap(){

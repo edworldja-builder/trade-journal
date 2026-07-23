@@ -1,6 +1,31 @@
 {
   "trades": [
     {
+      "id": 1784814082146,
+      "ticker": "AMD",
+      "side": "LONG",
+      "conv": "3",
+      "setupType": "Catalyst Play",
+      "entry": 550.79,
+      "units": 5,
+      "remainingUnits": 5,
+      "fxIn": 18000,
+      "target": 570,
+      "stop": 540,
+      "reason": "lisa lu mo presentasi, trus ada bounce dari 544, ke 550an..",
+      "checklist": {
+        "c_news": true,
+        "c_setup": true,
+        "c_rr": true,
+        "c_size": true,
+        "c_calm": true,
+        "c_options": true
+      },
+      "fills": [],
+      "openedAt": 1784814082146,
+      "status": "open"
+    },
+    {
       "id": 1784713227381,
       "ticker": "MU",
       "side": "LONG",

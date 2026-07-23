@@ -8,7 +8,7 @@
       "setupType": "Catalyst Play",
       "entry": 550.79,
       "units": 5,
-      "remainingUnits": 5,
+      "remainingUnits": 0,
       "fxIn": 18000,
       "target": 570,
       "stop": 540,
@@ -21,9 +21,18 @@
         "c_calm": true,
         "c_options": true
       },
-      "fills": [],
+      "fills": [
+        {
+          "units": 5,
+          "exit": 537,
+          "fxOut": 18000,
+          "emo": "kena SL",
+          "closedAt": 1784820589262
+        }
+      ],
       "openedAt": 1784814082146,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784820589262
     },
     {
       "id": 1784713227381,

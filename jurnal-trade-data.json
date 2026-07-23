@@ -8,7 +8,7 @@
       "setupType": "Pullback / Support",
       "entry": 945,
       "units": 2,
-      "remainingUnits": 1,
+      "remainingUnits": 0,
       "fxIn": 18000,
       "target": 1011,
       "stop": 915,
@@ -28,10 +28,18 @@
           "fxOut": 18000,
           "emo": "latian trailing stop TP",
           "closedAt": 1784743449553
+        },
+        {
+          "units": 1,
+          "exit": 960,
+          "fxOut": 18000,
+          "emo": "Kena stop trail",
+          "closedAt": 1784773279006
         }
       ],
       "openedAt": 1784713227381,
-      "status": "open"
+      "status": "closed",
+      "closedAt": 1784773279006
     },
     {
       "id": 1784709557923,
